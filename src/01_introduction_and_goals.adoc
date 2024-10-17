@@ -1,0 +1,26 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[[section-introduction-and-goals]]
+== Introducción y Metas
+
+=== Vista de Requerimientos
+
+El proyecto "Plataforma de Gestión Unificada para Gimnasios" tiene como objetivo desarrollar una solución digital integral dirigida a gimnasios en Perú. Esta plataforma optimizará las operaciones diarias, incluyendo la gestión de clientes, pagos, reservas, control de acceso, inventarios, y más. Además, se integrará con diversos servicios externos como Reniec, Culqi, Google Maps, Sunat, Twilio, Hugging Face, entre otros, para proporcionar una experiencia segura, eficiente y de alto rendimiento.
+
+=== Metas de Calidad
+
+- **Escalabilidad**: La plataforma debe ser capaz de soportar un número creciente de usuarios, transacciones y sedes, manteniendo siempre un rendimiento óptimo y fluido.
+- **Seguridad**: Los datos sensibles, como la información de usuarios y las transacciones financieras, deben estar completamente protegidos a través de mecanismos de autenticación seguros y cifrado avanzado, asegurando el cumplimiento de normativas vigentes.
+- **Alta Disponibilidad**: La plataforma debe garantizar un tiempo de actividad continuo (24/7), apoyada por una arquitectura robusta y tolerante a fallos, con capacidad de recuperación ante desastres.
+- **Mantenibilidad**: La arquitectura modular basada en microfrontends debe facilitar la actualización y el mantenimiento, permitiendo un despliegue ágil de nuevas funcionalidades sin afectar el funcionamiento general del sistema.
+- **Experiencia del Usuario (UX)**: La plataforma debe ofrecer una experiencia de usuario intuitiva y fácil de usar, adaptada a las necesidades de distintos roles dentro del gimnasio (entrenadores, gerentes, recepcionistas, etc.).
+
+=== Partes Interesadas (Stakeholders)
+
+[options="header",cols="1,2,2"]
+|===
+| Rol/Nombre | Contacto | Expectativas
+| Propietaria del Gimnasio / Norma Virginia Leon Lescano | nleonl@usmp.pe | Espera una solución eficiente, fácil de usar y que facilite la gestión de múltiples aspectos del gimnasio, incluyendo la atención al cliente y la optimización operativa.
+| Product Owner / Franco Jesús Sánchez Villalobos | fsanchezv@gmail.com | Asegurar que la plataforma cumpla con los requerimientos funcionales y de negocio, entregando valor continuamente a través de mejoras y optimizaciones.
+|===
+

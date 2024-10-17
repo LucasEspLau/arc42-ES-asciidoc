@@ -1,0 +1,122 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[[section-building-block-view]]
+
+
+== Vista de Bloques
+
+ifdef::arc42help[]
+
+endif::arc42help[]
+
+=== Sistema General de Caja Blanca
+
+ifdef::arc42help[]
+
+endif::arc42help[]
+
+_**<Diagrama general>**_
+
+Motivación::
+
+_<Explicación en texto>_
+
+
+Bloques de construcción contenidos::
+_<Desripción de los bloques de construcción contenidos (Cajas negras)>_
+
+Interfases importantes::
+_<Descripción de las interfases importantes>_
+
+ifdef::arc42help[]
+
+endif::arc42help[]
+
+==== <Caja Negra 1>
+
+ifdef::arc42help[]
+
+endif::arc42help[]
+
+_<Propósito/Responsabilidad>_
+
+_<Interfase(s)>_
+
+_<(Opcional) Características de Calidad/Performance>_
+
+_<(Opcional) Ubicación Archivo/Directorio>_
+
+_<(Opcional) Requerimientos Satisfechos>_
+
+_<(Opcional) Riesgos/Problemas/Incidentes Abiertos>_
+
+
+
+
+==== <Caja Negra 2>
+
+_<plantilla de caja negra>_
+
+==== <Caja Negra N>
+
+_<Plantilla de caja negra>_
+
+
+==== <Interfase 1>
+
+...
+
+==== <Interfase m>
+
+=== Nivel 2
+
+ifdef::arc42help[]
+
+endif::arc42help[]
+
+==== Caja Blanca _<bloque de construcción 1>_
+
+ifdef::arc42help[]
+
+endif::arc42help[]
+
+_<plantilla de caja blanca>_
+
+==== Caja Blanca _<bloque de construcción 2>_
+
+
+_<plantilla de caja blanca>_
+
+...
+
+==== Caja Blanca _<bloque de construcción m>_
+
+
+_<plantilla de caja blanca>_
+
+
+
+=== Nivel 3
+
+ifdef::arc42help[]
+
+endif::arc42help[]
+
+==== Caja Blanca <_bloque de construcción x.1_>
+
+ifdef::arc42help[]
+
+endif::arc42help[]
+
+_<plantilla de caja blanca>_
+
+
+==== Caja Blanca <_bloque de construcción x.2_>
+
+_<plantilla de caja blanca>_
+
+
+
+==== Caja Blanca <_bloque de construcción y.1_>
+
+_<plantilla de caja blanca>_

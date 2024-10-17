@@ -1,0 +1,19 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[[section-glossary]]
+== Glosario
+
+ifdef::arc42help[]
+
+endif::arc42help[]
+
+[cols="e,2e" options="header"]
+|===
+|Término |Definición
+
+|<Término-1>
+|<definicion-1>
+
+|<Término-2>
+|<definicion-2>
+|===

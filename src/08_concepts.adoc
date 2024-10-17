@@ -1,0 +1,25 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[[section-concepts]]
+== Conceptos Transversales (Cross-cutting)
+
+
+ifdef::arc42help[]
+
+endif::arc42help[]
+
+=== _<Concepto 1>_
+
+_<explicación>_
+
+
+
+=== _<Concepto 2>_
+
+_<explicación>_
+
+...
+
+=== _<Concepto n>_
+
+_<explicación>_

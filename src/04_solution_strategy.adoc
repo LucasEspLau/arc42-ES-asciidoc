@@ -1,0 +1,43 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[[section-solution-strategy]]
+== Estrategia de Solución
+
+La estrategia de solución para la **Plataforma de Gestión Unificada para Gimnasios** se basa en una infraestructura modular, escalable y automatizada, con el fin de optimizar la administración de gimnasios de distintos tamaños. El proyecto seguirá un enfoque serverless con servicios cloud en AWS, integraciones con terceros, y una experiencia de usuario fluida tanto en web como en dispositivos móviles. El proceso de implementación se dividirá en fases, con entregables claros en cada una, asegurando un desarrollo ágil y continuo.
+
+=== Componentes Tecnológicos Clave
+
+1. **Arquitectura Serverless en AWS**:
+   La elección de una arquitectura serverless en AWS permite reducir costos operativos y mejorar la escalabilidad. El sistema se centrará en la ejecución de funciones Lambda, activadas por eventos, que aseguran una respuesta eficiente ante la variabilidad de demanda de los gimnasios, en función del número de usuarios y operaciones activas.
+
+2. **Frontend (Aplicación Web y Móvil)**:
+   Los microfrontends se desarrollarán en React.js + Vite para la web y en React Native para aplicaciones móviles, asegurando una experiencia fluida y responsiva en dispositivos Android e iOS. El enfoque modular permitirá escalar y actualizar cada parte del sistema sin afectar a las demás.
+
+3. **Backend (Node.js + Lambdas)**:
+   El backend será implementado en Node.js utilizando un enfoque serverless con AWS Lambda para manejar las funciones críticas. AppSync gestionará las APIs, utilizando GraphQL para consultas especializadas y datos en tiempo real, lo que optimizará la experiencia de usuario.
+
+4. **Bases de Datos Mixtas**:
+   Se implementarán dos tipos de bases de datos para gestionar diferentes tipos de datos:
+   - **DynamoDB** para datos altamente escalables y de rápida respuesta (usuarios, registros, check-ins).
+   - **RDS PostgreSQL** para datos relacionales y transacciones críticas, como pagos, membresías y ventas.
+
+5. **Integración con Servicios Externos**:
+   La plataforma integrará varios servicios externos (Reniec, Culqi, Google Maps, Sunat, Twilio, Hugging Face) a través de APIs gestionadas por Lambdas. Esto permitirá automatizar funciones como la autenticación de usuarios, pagos, geolocalización y análisis de datos en tiempo real.
+
+6. **CI/CD Automatizado**:
+   La Integración Continua (CI) y la Entrega Continua (CD) se implementarán con CodePipeline, CodeBuild y CodeDeploy en AWS. Esto permitirá un flujo constante de despliegues y actualizaciones de manera eficiente y sin interrupciones. Durante el desarrollo, se utilizará Netlify para el despliegue ágil de los microfrontends.
+
+7. **Geolocalización y Check-ins**:
+   La integración con Google Maps facilitará la geolocalización en tiempo real para los check-ins de empleados y clientes. Esto optimizará el control de acceso en las instalaciones.
+
+8. **Seguridad y Autenticación**:
+   AWS Cognito gestionará la autenticación segura, incluyendo el manejo de inicio de sesión, roles y autorizaciones. Además, se implementarán métodos de cifrado robustos para proteger datos sensibles, como información de pago y credenciales de los usuarios.
+
+9. **Almacenamiento y Gestión de Archivos**:
+   Amazon S3 se utilizará para almacenar archivos estáticos (imágenes, documentos) y objetos en 3D generados con Hugging Face, permitiendo una visualización avanzada de productos.
+
+10. **Notificaciones y Comunicaciones**:
+    Twilio se encargará de gestionar notificaciones en tiempo real a través de SMS o llamadas automatizadas, lo que mejorará la comunicación sobre eventos, promociones y cambios en las membresías.
+
+11. **Monitoreo y Métricas en Tiempo Real**:
+    El sistema será monitoreado con Grafana, lo que permitirá visualizar métricas clave, analizar estadísticas de uso y detectar problemas de rendimiento o cuellos de botella.

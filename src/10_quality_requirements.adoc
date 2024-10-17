@@ -1,0 +1,21 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[[section-quality-scenarios]]
+== Requerimientos de Calidad
+
+
+ifdef::arc42help[]
+
+endif::arc42help[]
+
+=== Árbol de Calidad
+
+ifdef::arc42help[]
+
+endif::arc42help[]
+
+=== Escenarios de calidad
+
+ifdef::arc42help[]
+
+endif::arc42help[]

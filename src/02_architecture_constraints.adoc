@@ -1,0 +1,48 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[[section-architecture-constraints]]
+== Restricciones de la Arquitectura
+
+Al analizar la arquitectura de tu proyecto y el entorno técnico planteado, podemos identificar varias restricciones y desafíos que podrían presentarse durante la implementación:
+
+=== 3.1. Restricciones Técnicas
+
+1. **Latencia y Desempeño**:
+   La plataforma depende de varios servicios externos como RENIEC, Culqi, Google Maps, Sunat, Twilio, Grafana, y Hugging Face, lo que implica variaciones en la latencia y tiempos de respuesta. Si uno de estos servicios sufre interrupciones o está fuera de línea, puede afectar negativamente la operatividad general del sistema.
+   - *Posible restricción*: Un alto número de usuarios simultáneos puede generar cuellos de botella si los servicios externos no responden a tiempo o sufren sobrecargas, lo que afectará la experiencia del usuario.
+
+2. **Escalabilidad y Costos de AWS Lambda**:
+   Aunque el uso de AWS Lambda es serverless y escalable, los costos aumentarán de forma proporcional al número de ejecuciones y la duración de estas, especialmente si las funciones necesitan acceder intensivamente a bases de datos o servicios externos.
+   - *Posible restricción*: Si las funciones Lambda superan el tiempo máximo de ejecución permitido (15 minutos), habrá que reconsiderar las operaciones más complejas o dividirlas en procesos más pequeños para evitar interrupciones.
+
+3. **Compatibilidad y Gestión de Bases de Datos**:
+   La plataforma utilizará PostgreSQL en RDS (SQL) y DynamoDB (NoSQL), lo que requiere una integración adecuada para evitar inconsistencias o duplicación de datos. La interacción de múltiples funciones Lambda con diferentes tipos de bases de datos puede añadir complejidad al sistema.
+   - *Posible restricción*: Asegurar la correcta sincronización de datos entre ambas bases de datos será crucial para garantizar la integridad de la información y evitar problemas de consistencia.
+
+4. **Gestión de Seguridad y Autenticación**:
+   El uso de Amazon Cognito para la autenticación y la gestión de roles de usuarios añade robustez, pero también puede convertirse en un punto vulnerable si no se configuran adecuadamente los permisos y las políticas de acceso.
+   - *Posible restricción*: La gestión de permisos y políticas de seguridad, especialmente con la integración de múltiples servicios externos, puede volverse difícil de mantener, lo que aumentaría el riesgo de brechas de seguridad.
+
+5. **Interoperabilidad y Mantenimiento de Microfrontends**:
+   La arquitectura estará basada en 10 microfrontends desarrollados en React + Vite y React Native, lo que puede generar un nivel alto de complejidad en la sincronización y gestión de dependencias entre ellos. Cada microfrontend tendrá su propio pipeline de despliegue, lo que añade desafíos en la integración continua y las pruebas de compatibilidad.
+   - *Posible restricción*: Será fundamental garantizar que las actualizaciones de un microfrontend no afecten negativamente a los demás, lo que requiere pruebas exhaustivas para mantener la estabilidad del sistema.
+
+6. **Arquitectura Serverless**:
+   La arquitectura serverless limita el control directo sobre el hardware y algunos aspectos de la infraestructura. La plataforma deberá orquestar y monitorear adecuadamente las funciones Lambda para minimizar tiempos de inactividad y asegurar la disponibilidad del sistema.
+   - *Posible restricción*: La falta de control sobre el hardware puede generar limitaciones en cuanto al monitoreo y ajuste fino de los recursos utilizados por las funciones Lambda.
+
+=== 3.2. Restricciones Presupuestarias
+
+1. **Uso de Servicios en la Nube**:
+   La dependencia de múltiples servicios en AWS introduce una estructura de costos variable, que está directamente relacionada con el uso de recursos como almacenamiento en S3, consultas en DynamoDB, ejecución de Lambdas, y el tráfico gestionado a través de CloudFront.
+   - *Posible restricción*: Es crucial monitorear los costos asociados y realizar una optimización de recursos para evitar que el presupuesto se incremente de manera imprevista.
+
+2. **CI/CD y Herramientas de Gestión**:
+   La integración de CodePipeline para CI/CD, junto con herramientas de gestión como Azure DevOps, y el uso de pruebas automatizadas con Selenium, Jest y SonarCloud, también introducen costos adicionales. Estos costos deben estar alineados con el presupuesto general del proyecto.
+   - *Posible restricción*: Los gastos derivados del uso de estas herramientas de desarrollo y pruebas podrían elevarse si no se gestionan adecuadamente los pipelines y las ejecuciones automatizadas.
+
+=== 3.3. Restricciones de Tiempo
+
+1. **Cronograma de Implementación**:
+   El proyecto debe cumplir con un cronograma estricto para la entrega de funcionalidades en QA y producción. Se priorizará la entrega de características clave dentro del primer año de operación, lo que podría limitar el tiempo disponible para implementar soluciones más avanzadas.
+   - *Posible restricción*: El equipo de desarrollo deberá cumplir con los plazos definidos para asegurar que las funcionalidades críticas estén disponibles en tiempo y forma, lo que podría afectar la calidad de algunas implementaciones si no se gestiona adecuadamente el tiempo de desarrollo.
