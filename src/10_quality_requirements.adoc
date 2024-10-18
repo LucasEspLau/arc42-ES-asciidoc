@@ -3,19 +3,134 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-quality-scenarios]]
 == Requerimientos de Calidad
 
-
 ifdef::arc42help[]
-
 endif::arc42help[]
 
 === Árbol de Calidad
 
-ifdef::arc42help[]
-
-endif::arc42help[]
+image::arbol-calidad.png[alt="Arbol de Calidad", title="Arbol de Calidad", width=800]
 
 === Escenarios de calidad
 
 ifdef::arc42help[]
-
 endif::arc42help[]
+
+==== Escenario 1: Rendimiento
+
+* **Contexto**: 
+  Bajo cargas normales de trabajo y en picos de alta demanda (hasta 10,000 usuarios concurrentes).
+* **Estimulación**: 
+  El sistema recibe solicitudes simultáneas de usuarios para procesar transacciones y solicitudes de datos.
+* **Medida de respuesta**: 
+  El tiempo de respuesta de la plataforma debe ser menor a 300 ms bajo carga normal y menor a 1 segundo durante picos de alta demanda.
+* **Artefactos afectados**: 
+  Microservicios, AWS Lambda, API Gateway.
+* **Fuente de estimulación**: 
+  Usuarios finales y operaciones automatizadas.
+* **Respuesta**: 
+  El sistema escala automáticamente usando AWS Lambda, manteniendo el rendimiento sin tiempos de inactividad ni disminución en la calidad de servicio.
+* **Medida de respuesta**: 
+  Tiempos de respuesta dentro de los límites especificados; uso eficiente de la capacidad de los servicios serverless.
+
+==== Escenario 2: Escalabilidad
+
+* **Contexto**: 
+  El sistema enfrenta un aumento repentino en la cantidad de usuarios concurrentes, alcanzando hasta 10,000 usuarios.
+* **Estimulación**: 
+  Aumento en las solicitudes a la API y servicios internos debido a la carga incrementada.
+* **Medida de respuesta**: 
+  El sistema debe ajustar automáticamente su capacidad sin intervención manual.
+* **Artefactos afectados**: 
+  AWS Lambda, DynamoDB, API Gateway.
+* **Fuente de estimulación**: 
+  Usuarios finales y operaciones del sistema.
+* **Respuesta**: 
+  La plataforma escala automáticamente utilizando los servicios serverless de AWS.
+* **Medida de respuesta**: 
+  Capacidad ajustada automáticamente y sin impacto en la experiencia del usuario.
+
+==== Escenario 3: Disponibilidad
+
+* **Contexto**: 
+  Funcionamiento de la plataforma en producción y QA.
+* **Estimulación**: 
+  Solicitudes de acceso de usuarios y tareas del sistema.
+* **Medida de respuesta**: 
+  La plataforma debe tener un SLA del 99.9% en cuanto a disponibilidad.
+* **Artefactos afectados**: 
+  AWS S3, DynamoDB, RDS PostgreSQL, API Gateway.
+* **Fuente de estimulación**: 
+  Operaciones regulares del sistema y acceso de usuarios.
+* **Respuesta**: 
+  AWS debe asegurar alta disponibilidad y redundancia de los datos en S3, DynamoDB y RDS.
+* **Medida de respuesta**: 
+  Monitoreo continuo de la disponibilidad y tiempos de inactividad; alta redundancia en los servicios de almacenamiento.
+
+==== Escenario 4: Seguridad
+
+* **Contexto**: 
+  Acceso a la plataforma y sus recursos por parte de administradores, empleados y clientes.
+* **Estimulación**: 
+  Intentos de acceso a recursos protegidos.
+* **Medida de respuesta**: 
+  Solo usuarios autenticados y autorizados pueden acceder a la plataforma.
+* **Artefactos afectados**: 
+  AWS Cognito, IAM, HTTPS, TLS.
+* **Fuente de estimulación**: 
+  Solicitudes de autenticación y autorización de usuarios.
+* **Respuesta**: 
+  AWS Cognito gestiona la autenticación y autorización, mientras que los datos sensibles están protegidos mediante cifrado en tránsito y en reposo.
+* **Medida de respuesta**: 
+  Acceso seguro según roles y permisos; cumplimiento con la Ley de Protección de Datos Personales en Perú.
+
+==== Escenario 5: Mantenibilidad
+
+* **Contexto**: 
+  Mantenimiento continuo de la plataforma y despliegue de nuevas versiones.
+* **Estimulación**: 
+  Actualizaciones de código y mejoras en los servicios.
+* **Medida de respuesta**: 
+  Despliegues automatizados y documentación técnica clara para facilitar el mantenimiento.
+* **Artefactos afectados**: 
+  AWS CodePipeline, CloudFormation, microfrontends, lambdas.
+* **Fuente de estimulación**: 
+  Equipos de desarrollo.
+* **Respuesta**: 
+  Los despliegues se realizarán automáticamente a través de CI/CD, con documentación técnica detallada de cada módulo para facilitar el mantenimiento y futuras actualizaciones.
+* **Medida de respuesta**: 
+  Tiempo de despliegue rápido y sin interrupciones, con documentación actualizada.
+
+==== Escenario 6: Monitoreo y Alertas
+
+* **Contexto**: 
+  Funcionamiento continuo del sistema.
+* **Estimulación**: 
+  Eventos anómalos, errores y baja en métricas clave.
+* **Medida de respuesta**: 
+  El sistema debe detectar errores y anomalías, enviando alertas en tiempo real al equipo de desarrollo.
+* **Artefactos afectados**: 
+  Grafana, CloudWatch.
+* **Fuente de estimulación**: 
+  Logs del sistema y métricas de rendimiento.
+* **Respuesta**: 
+  El sistema debe monitorear métricas clave y generar alertas automáticas para errores críticos.
+* **Medida de respuesta**: 
+  Tiempo de detección y notificación de eventos críticos; monitoreo en tiempo real de métricas clave.
+
+==== Escenario 7: Usabilidad y Experiencia de Usuario
+
+* **Contexto**: 
+  Uso diario de la plataforma por administradores, empleados y clientes.
+* **Estimulación**: 
+  Acceso a la interfaz de usuario desde diferentes dispositivos.
+* **Medida de respuesta**: 
+  La plataforma debe ser fácil de usar, con una experiencia de usuario intuitiva tanto en dispositivos móviles como de escritorio.
+* **Artefactos afectados**: 
+  Microfrontends, UI/UX.
+* **Fuente de estimulación**: 
+  Usuarios finales.
+* **Respuesta**: 
+  La plataforma debe proporcionar una experiencia fluida, intuitiva y responsiva para usuarios de diferentes perfiles.
+* **Medida de respuesta**: 
+  Satisfacción del usuario final; facilidad de uso y personalización de funcionalidades.
+

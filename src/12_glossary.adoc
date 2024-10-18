@@ -4,16 +4,72 @@ ifndef::imagesdir[:imagesdir: ../images]
 == Glosario
 
 ifdef::arc42help[]
-
 endif::arc42help[]
 
 [cols="e,2e" options="header"]
 |===
 |Término |Definición
 
-|<Término-1>
-|<definicion-1>
+|AWS (Amazon Web Services)
+|Plataforma de servicios en la nube que proporciona almacenamiento, bases de datos, computación y otras herramientas para la construcción y escalabilidad de aplicaciones.
 
-|<Término-2>
-|<definicion-2>
+|API Gateway
+|Servicio de AWS que facilita la creación, publicación, mantenimiento y monitoreo de APIs RESTful, permitiendo a las aplicaciones cliente interactuar con el backend a través de HTTP.
+
+|CI/CD (Continuous Integration/Continuous Deployment)
+|Proceso automatizado de integración continua y despliegue de aplicaciones, donde el código se prueba y se implementa de manera regular y eficiente.
+
+|CloudFront
+|Red de distribución de contenido (CDN) de AWS que permite entregar contenido a usuarios finales con baja latencia y alta velocidad a través de una red global.
+
+|CloudFormation
+|Herramienta de AWS que permite la creación y gestión de recursos en la nube mediante la definición de plantillas de infraestructura como código (IaC).
+
+|Cognito
+|Servicio de AWS que permite la autenticación y autorización de usuarios mediante la gestión de identidades, facilitando la integración con aplicaciones web y móviles.
+
+|DynamoDB
+|Base de datos NoSQL de AWS diseñada para ofrecer un rendimiento rápido y predecible con escalabilidad automática.
+
+|Lambda
+|Servicio de computación sin servidor en AWS que ejecuta código en respuesta a eventos y escala automáticamente según la demanda.
+
+|Microfrontend
+|Enfoque de desarrollo donde cada sección de la interfaz de usuario es una aplicación independiente que puede ser desplegada y desarrollada de forma autónoma.
+
+|RDS (Relational Database Service)
+|Servicio administrado de bases de datos relacionales en AWS. En este proyecto se usa PostgreSQL como base de datos principal.
+
+|VPC (Virtual Private Cloud)
+|Red privada virtual que proporciona aislamiento lógico dentro de la nube de AWS, permitiendo mayor control sobre los recursos y la seguridad.
+
+|Netlify
+|Plataforma utilizada para desplegar aplicaciones frontend de manera rápida y sencilla, útil en la etapa de desarrollo.
+
+|Render
+|Servicio en la nube que aloja aplicaciones y bases de datos, utilizado en este proyecto para desarrollo y pruebas.
+
+|S3 (Simple Storage Service)
+|Servicio de almacenamiento de objetos en AWS utilizado para almacenar archivos como imágenes y documentos.
+
+|CodePipeline
+|Servicio de AWS que automatiza el proceso de construcción, prueba y despliegue de código, facilitando la integración continua (CI) y el despliegue continuo (CD).
+
+|Sunat
+|Superintendencia Nacional de Aduanas y de Administración Tributaria de Perú. Servicio utilizado para gestionar aspectos fiscales dentro de la plataforma.
+
+|Culqi
+|Proveedor peruano de servicios de pago, utilizado en la plataforma para procesar transacciones de manera segura.
+
+|Twilio
+|Plataforma de servicios de comunicación en la nube, utilizada para enviar mensajes de texto y realizar llamadas automatizadas dentro de la plataforma.
+
+|Reniec
+|Registro Nacional de Identificación y Estado Civil de Perú, integrado en la plataforma para validar identidades de los usuarios.
+
+|Google Maps
+|Servicio utilizado para integrar mapas y funcionalidades de geolocalización en la plataforma, permitiendo ubicar gimnasios y otros puntos de interés.
+
+|Hugging Face
+|Plataforma de modelos de inteligencia artificial y procesamiento de lenguaje natural, utilizada para mejorar la interacción con los usuarios mediante chatbots y procesamiento de datos textuales.
 |===

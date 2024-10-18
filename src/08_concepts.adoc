@@ -3,23 +3,84 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-concepts]]
 == Conceptos Transversales (Cross-cutting)
 
+Los conceptos transversales son principios y temas clave que afectan a múltiples componentes del sistema, asegurando que todos los elementos funcionen de manera eficiente, segura y escalable.
 
-ifdef::arc42help[]
+=== _Autenticación y Autorización_
 
-endif::arc42help[]
+La autenticación y autorización son esenciales para garantizar que solo los usuarios autorizados puedan acceder a las funciones de la plataforma, protegiendo la información sensible y asignando permisos basados en los roles de usuario.
 
-=== _<Concepto 1>_
+==== AWS Cognito
 
-_<explicación>_
+AWS Cognito será utilizado para gestionar la autenticación de usuarios. Proporciona una solución escalable y segura para la autenticación y autorización, permitiendo la creación y gestión de usuarios, roles y permisos.
 
+* **Roles de Usuario**: Se manejarán mediante grupos y permisos, asignando diferentes privilegios a roles como recepcionista, administrador, cliente, etc.
+* **Seguridad**: Cognito asegura que solo los usuarios registrados y autorizados puedan acceder a las funcionalidades de la plataforma.
 
+=== _Escalabilidad y Alta Disponibilidad_
 
-=== _<Concepto 2>_
+El diseño de la plataforma se centra en ofrecer un sistema que se ajuste automáticamente a la demanda, garantizando alta disponibilidad y tiempos de inactividad mínimos.
 
-_<explicación>_
+==== VPC (Virtual Private Cloud)
 
-...
+Toda la infraestructura estará alojada en una VPC. Esto añade una capa adicional de seguridad al restringir el acceso directo a ciertos servicios dentro de la red privada.
 
-=== _<Concepto n>_
+* **Acceso Restringido**: Los servicios críticos, como Lambdas y bases de datos, solo serán accesibles dentro de la VPC.
+* **Minimización de Exposición Externa**: Se evita la exposición innecesaria de servicios a Internet, mejorando la seguridad.
 
-_<explicación>_
+==== Políticas IAM
+
+Se implementarán políticas de IAM (Identity and Access Management) para controlar el acceso a los recursos de AWS. Solo los usuarios y roles autorizados podrán interactuar con los servicios.
+
+* **Acceso Basado en Roles**: Las políticas de IAM asignarán permisos específicos basados en los roles definidos dentro de la plataforma.
+* **Seguridad Granular**: Se proporcionará acceso limitado a los recursos, asegurando que solo los usuarios necesarios puedan realizar acciones específicas.
+
+=== _Monitorización, Alertas y Trazabilidad_
+
+La monitorización y la trazabilidad son fundamentales para detectar y resolver problemas rápidamente, así como para asegurar el correcto funcionamiento del sistema.
+
+==== Grafana
+
+Grafana será empleado para la monitorización del rendimiento de la plataforma, proporcionando visualización de métricas y estadísticas en tiempo real.
+
+* **Métricas en Tiempo Real**: Administradores y entrenadores tendrán acceso a estadísticas clave sobre el uso de la plataforma.
+* **Visualización Avanzada**: Permite a los usuarios visualizar datos complejos de manera intuitiva.
+
+==== Amazon CloudWatch
+
+Amazon CloudWatch será utilizado para el monitoreo de logs y métricas, permitiendo la detección temprana de errores o problemas en el sistema.
+
+* **Monitoreo de Logs**: CloudWatch supervisará eventos críticos que puedan afectar el rendimiento del sistema.
+* **Alertas Automáticas**: Se implementarán alertas automáticas para notificar a los administradores sobre eventos críticos en tiempo real.
+
+=== _Notificaciones_
+
+Twilio será el servicio encargado de gestionar las notificaciones y alertas a los usuarios, enviando actualizaciones importantes sobre eventos relacionados con la plataforma.
+
+* **Envío de SMS y Correos Electrónicos**: Se enviarán mensajes a los usuarios para notificar sobre promociones, recordatorios de pago, check-ins y más.
+* **Interactividad**: Los usuarios podrán recibir notificaciones en tiempo real, mejorando la comunicación y la experiencia del usuario.
+
+=== _Pagos_
+
+Las integraciones con Culqi permitirán la gestión de pagos de manera segura y eficiente dentro de la plataforma.
+
+* **Gestión de Membresías**: Culqi será la pasarela de pagos para gestionar las membresías de los clientes.
+* **Tienda en Línea**: Los pagos en la tienda en línea del gimnasio también serán procesados a través de Culqi.
+
+=== _3D Modeling_
+
+Hugging Face será utilizado para la conversión de imágenes a modelos 3D, optimizando la experiencia de visualización de productos en la tienda virtual y física del gimnasio.
+
+* **Visualización de Productos**: Los productos podrán ser visualizados en 3D, mejorando la experiencia del cliente en la tienda.
+* **Almacenamiento en S3**: Los modelos 3D generados se almacenarán en Amazon S3 para facilitar su acceso y uso en la plataforma.
+
+=== _Patrones de Diseño_
+
+El diseño modular basado en microfrontends y la arquitectura serverless permitirá a la plataforma ser fácilmente escalable y mantenible.
+
+==== Microfrontends
+
+Cada microfrontend será un módulo independiente que interactúa con el backend a través de API Gateway.
+
+* **Escalabilidad Independiente**: Los microfrontends podrán actualizarse y mantenerse de manera independiente.
+* **Modularidad**: La arquitectura modular facilitará la implementación de nuevas funcionalidades sin afectar a los demás componentes del sistema.
+

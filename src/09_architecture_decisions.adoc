@@ -1,9 +1,63 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
-[[section-design-decisions]]
-== Decisiones de Diseño
+[[section-decisions]]
+== Decisiones Arquitectónicas
 
+Las decisiones arquitectónicas guían el diseño e implementación de la plataforma, asegurando que sea escalable, eficiente y económica, adaptándose a las necesidades del negocio y los usuarios.
 
-ifdef::arc42help[]
+=== _AWS como Proveedor de Nube_
 
-endif::arc42help[]
+Se eligió AWS como proveedor en la nube debido a su liderazgo en el mercado y su amplia gama de servicios escalables y seguros. AWS ofrece una infraestructura global que garantiza baja latencia y alta disponibilidad, factores clave para proporcionar una experiencia de usuario fluida y confiable en la plataforma de gimnasios.
+
+* **Escalabilidad**: AWS proporciona servicios que escalan automáticamente con la demanda.
+* **Alta Disponibilidad**: La infraestructura distribuida globalmente garantiza que los usuarios puedan acceder a la plataforma desde cualquier ubicación con baja latencia.
+
+=== _Arquitectura Serverless con AWS Lambda_
+
+Se decidió implementar una arquitectura serverless utilizando AWS Lambda. Esto permite escalar automáticamente las aplicaciones sin la necesidad de gestionar servidores, lo cual es ideal para los gimnasios que experimentan picos de uso en ciertos momentos del día.
+
+* **Interacción con Servicios Externos**: Las Lambdas interactúan con servicios como Reniec, Culqi, Google Maps, Sunat, Grafana, Twilio y Hugging Face, proporcionando funcionalidades avanzadas como pagos, notificaciones y conversión de imágenes a modelos 3D.
+* **Ahorro de Costos**: La arquitectura serverless reduce el costo operativo, ya que solo se paga por el uso real de los recursos.
+
+=== _Uso de Microfrontends_
+
+Se adoptó un enfoque de microfrontends para permitir un ciclo de desarrollo ágil y modular. Cada módulo se desarrolla, prueba y despliega de manera independiente, lo que reduce riesgos y dependencias entre equipos.
+
+* **Modularidad**: Cada microfrontend se comunica con el backend a través de API Gateway, optimizando la modularidad del sistema.
+* **Ciclo de Desarrollo Ágil**: El enfoque de microfrontends facilita la implementación rápida de nuevas funcionalidades, permitiendo iteraciones frecuentes sin afectar el resto del sistema.
+
+=== _Bases de Datos Híbridas: DynamoDB y RDS PostgreSQL_
+
+Se optó por una arquitectura de bases de datos híbrida, utilizando DynamoDB y RDS PostgreSQL para diferentes tipos de datos. Esto proporciona flexibilidad y optimización en el manejo de grandes volúmenes de datos con diferentes estructuras.
+
+* **DynamoDB**: Utilizado para almacenar datos no estructurados y de acceso rápido, como perfiles de usuarios y sesiones activas.
+* **RDS PostgreSQL**: Utilizado para almacenar datos estructurados que requieren una gestión relacional, como transacciones, membresías y productos.
+
+=== _S3 para Almacenamiento de Microfrontends y Archivos Multimedia_
+
+S3 fue elegido como el servicio de almacenamiento para los microfrontends y los activos multimedia (imágenes, documentos y modelos 3D generados con Hugging Face). Esta decisión garantiza alta disponibilidad y durabilidad de los datos.
+
+* **Almacenamiento de Microfrontends**: S3 se utiliza en lugar de Amplify para optimizar costos, manteniendo un buen rendimiento en la entrega de contenido estático.
+* **Almacenamiento Multimedia**: S3 proporciona una solución escalable para gestionar archivos grandes y permite una fácil integración con otros servicios de AWS.
+
+=== _CloudFront para la Entrega de Contenido_
+
+Se decidió utilizar CloudFront como red de distribución de contenido (CDN) para acelerar la entrega de los microfrontends y activos estáticos a los usuarios finales, independientemente de su ubicación geográfica.
+
+* **Optimización de la Entrega**: CloudFront distribuye el contenido a través de múltiples ubicaciones globales, garantizando una entrega rápida.
+* **Seguridad**: CloudFront proporciona certificados SSL para asegurar la protección de los datos durante el tránsito.
+
+=== _Integración de CI/CD con CodePipeline y GitHub_
+
+La plataforma implementa un pipeline de CI/CD utilizando AWS CodePipeline y GitHub. Esto automatiza los procesos de pruebas y despliegue, garantizando un ciclo de desarrollo ágil y seguro.
+
+* **Automatización del Despliegue**: Las nuevas versiones del código se despliegan automáticamente tras pasar por pruebas automatizadas.
+* **Infraestructura como Código (IaC)**: CloudFormation permite la creación y gestión de la infraestructura de manera consistente en los entornos de desarrollo, QA y producción.
+
+=== _Integración con Servicios Externos_
+
+Se decidió integrar varios servicios externos para proporcionar funcionalidades avanzadas, reduciendo la necesidad de desarrollar soluciones propietarias.
+
+* **Reniec, Culqi, Google Maps, Sunat, Twilio**: Estos servicios proporcionan funcionalidades esenciales como verificación de identidad, pagos, geolocalización, y notificaciones.
+* **Reducción de Costos de Desarrollo**: Al aprovechar estos servicios confiables, se reduce el esfuerzo y el costo en la creación de soluciones personalizadas.
+

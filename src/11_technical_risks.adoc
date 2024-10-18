@@ -3,7 +3,44 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-technical-risks]]
 == Riesgos y deuda técnica
 
-
 ifdef::arc42help[]
-
 endif::arc42help[]
+
+=== Riesgos
+A lo largo del desarrollo de la Plataforma de Gestión Unificada para Gimnasios, se han identificado varios riesgos que pueden afectar el rendimiento y la seguridad del sistema. La mitigación de estos riesgos es clave para el éxito de la plataforma.
+
+*Despliegue en orden incorrecto*:
+El microfrontend principal debe ser desplegado al final, ya que contiene las URLs de los demás microfrontends. Si no se respeta esta secuencia, pueden ocurrir errores de carga o fallos de integración. **Mitigación**: Configuración adecuada de los pipelines para gestionar el orden de despliegue.
+
+*Dependencia de servicios externos*:
+La plataforma está integrada con varios servicios externos (Culqi, Twilio, Reniec, Google Maps, Sunat, Hugging Face). Fallos o cambios en estos servicios pueden afectar pagos, notificaciones o generación de objetos 3D. **Mitigación**: Se utilizan bloques *try-catch* en las AWS Lambdas para manejar errores, loggear fallos y devolver mensajes claros al usuario.
+
+*Límites de escalabilidad de AWS Lambda*:
+Las Lambdas escalan automáticamente, pero existen limitaciones en llamadas concurrentes y tiempos de ejecución que podrían generar cuellos de botella. **Mitigación**: Monitorear con CloudWatch y ajustar los límites de concurrencia.
+
+*Escalabilidad de la Base de Datos*:
+RDS PostgreSQL puede sobrecargarse bajo alto tráfico si no se gestionan bien las consultas e índices. **Mitigación**: Optimización de consultas y monitoreo constante.
+
+*Seguridad de datos sensibles*:
+Manejo de datos sensibles en Lambdas, API Gateway o almacenamiento en S3 y DynamoDB podría resultar en brechas de seguridad. **Mitigación**: Cifrado, auditorías regulares y controles de seguridad estrictos.
+
+*Monitoreo insuficiente*:
+Si no se implementa un monitoreo adecuado, los problemas podrían pasar desapercibidos hasta afectar al usuario final. **Mitigación**: Uso de Grafana y CloudWatch para monitorizar el sistema desde el principio.
+
+*Complejidad en la integración de microfrontends*:
+Cualquier cambio en un microfrontend puede afectar al principal, lo que complica el mantenimiento. **Mitigación**: Pruebas automáticas y pipelines robustos para asegurar la estabilidad.
+
+=== Deuda Técnica
+Durante el desarrollo, se ha acumulado deuda técnica debido a decisiones para acelerar la implementación.
+
+*Falta de pruebas automatizadas completas*:
+Áreas críticas como la gestión de transacciones y pagos no tienen pruebas automatizadas completas. **Pendiente**: Ampliar las pruebas en Jest, Selenium y SonarCloud.
+
+*Optimización de consultas SQL*:
+Algunas consultas en RDS PostgreSQL no están completamente optimizadas, lo que podría generar tiempos de respuesta lentos con grandes volúmenes de datos. **Pendiente**: Optimización de consultas.
+
+*Gestión de estados en microfrontends*:
+La gestión del estado entre microfrontends depende de convenciones que no están completamente documentadas. **Pendiente**: Documentación completa y revisión de la gestión de estados.
+
+*Complejidad de integración*:
+El proceso de integración entre múltiples microfrontends y servicios desacoplados es complejo, lo que aumenta el tiempo de respuesta ante problemas. **Pendiente**: Optimización de los procesos de despliegue y sincronización.
