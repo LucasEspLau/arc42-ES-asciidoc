@@ -19,54 +19,413 @@ _**<Diagrama general>**_
 
 Motivación::
 
-_<Explicación en texto>_
+Este sistema proporciona una arquitectura modular y serverless, con microfrontends y múltiples Lambdas para gestionar un gimnasio de forma escalable y eficiente.
 
 
 Bloques de construcción contenidos::
-_<Desripción de los bloques de construcción contenidos (Cajas negras)>_
+Este sistema está organizado en grupos de microfrontends y grupos de lambdas que operan como servicios especializados y autónomos.
 
 Interfases importantes::
-_<Descripción de las interfases importantes>_
+- **API Gateway** para la exposición de lambdas y comunicación con microfrontends.
+- **S3** para almacenamiento de archivos y objetos.
+- Integraciones con **servicios externos** (Reniec, Culqi, Twilio, Google Maps Plataform, Sunat, Hugging Face, Grafana) para funciones específicas.
 
 ifdef::arc42help[]
 
 endif::arc42help[]
 
-==== <Caja Negra 1>
+==== Caja Negra 1: s3-mf-manager
+
+Propósito/Responsabilidad::
+Permitir al administrador gestionar áreas clave del gimnasio, como inventario, sedes, informes de compras, y ventas, así como la gestión de empleados y promociones.
+
+**Funciones**::
+- **Gestión de Inventario**: Control de stock asignado por sede.
+- **Informe de Compras y Ventas**: Registro de transacciones por sede y aplicación.
+- **Gestión de Sedes y Empleados**: Crear, habilitar o deshabilitar sedes y empleados.
+
+==== Caja Negra 2: s3-mf-clientes
+
+Propósito/Responsabilidad::
+Permitir a los clientes acceder a funcionalidades clave como check-in, gestión de membresía y pagos de productos, mejorando su experiencia en el gimnasio.
+
+**Funciones**::
+- **Check-in de Clientes**: Control de asistencia de clientes.
+- **Planes de Entrenamiento y Nutrición**: Visualización de planes asignados.
+- **Renovación y Compras**: Renovación de membresía y pagos de productos.
+
+==== Caja Negra 3: s3-mf-administrador
+
+Propósito/Responsabilidad::
+Proporcionar al administrador de sistemas herramientas para la gestión de empleados, clientes y productos en el gimnasio.
+
+**Funciones**::
+- **Gestión de Empleados y Clientes**: Administración de usuarios en el sistema.
+- **Gestión de Productos y Ejercicios**: Configuración de productos y tipos de ejercicios según el equipamiento disponible.
+
+==== Caja Negra 4: s3-mf-nutricionista
+
+Propósito/Responsabilidad::
+Facilitar al nutricionista la creación y administración de planes de alimentación personalizados para los alumnos.
+
+**Funciones**::
+- **Creación de Planes de Alimentación**: Asignación de dietas personalizadas.
+- **Consulta de Alumnos**: Visualización de detalles de cada alumno según sus métricas.
+
+==== Caja Negra 5: s3-mf-fisioterapeuta
+
+Propósito/Responsabilidad::
+Permitir al fisioterapeuta gestionar planes de recuperación y adaptación de entrenamientos según el historial de lesiones del cliente.
+
+**Funciones**::
+- **Planes de Recuperación de Lesiones**: Creación de rutinas de recuperación adaptadas.
+- **Consulta de Métricas y Planes**: Información detallada para planificar la recuperación.
+
+==== Caja Negra 6: s3-mf-entrenador
+
+Propósito/Responsabilidad::
+Gestionar y personalizar planes de entrenamiento para los alumnos individuales.
+
+**Funciones**::
+- **Creación de Planes de Entrenamiento**: Desarrollo de rutinas personalizadas.
+- **Asignación y Medición de Métricas**: Registro de métricas de progreso.
+- **Consulta de Planes Nutricionales y de Recuperación**: Acceso a información nutricional y de recuperación.
+
+==== Caja Negra 7: s3-mf-instructor
+
+Propósito/Responsabilidad::
+Administrar entrenamientos grupales, permitiendo crear planes de entrenamiento comunes para los grupos de clientes.
+
+**Funciones**::
+- **Planes Grupales de Entrenamiento**: Asignación y seguimiento de objetivos de grupo.
+
+==== Caja Negra 8: s3-mf-encargado
+
+Propósito/Responsabilidad::
+Coordinar eventos, tareas y control de stock en la sede del gimnasio.
+
+**Funciones**::
+- **Gestión de Eventos y Horarios**: Creación de eventos y asignación de tareas.
+- **Solicitud de Productos**: Solicitud de renovación de stock al administrador.
+- **Gestión de Empleados**: Control de empleados en la sede.
+
+==== Caja Negra 9: s3-mf-recepcionista
+
+Propósito/Responsabilidad::
+Atención directa a clientes para la actualización de pagos y gestión de notificaciones.
+
+**Funciones**::
+- **Notificaciones y Constancias**: Envío de mensajes internos y constancias de ventas.
+- **Pagos Presenciales**: Gestión de pagos realizados en el gimnasio.
+
+==== Caja Negra 10: s3-mf-principal
+
+Propósito/Responsabilidad::
+Interfaz de inicio del sistema donde los usuarios acceden a la información básica del gimnasio y pueden iniciar sesión.
+
+**Funciones**::
+- **Vista de Información**: Información general del gimnasio y sus servicios.
+- **Inicio de Sesión**: Autenticación de usuarios registrados.
+  
+==== Caja Negra 11: gestionar-usuarios
+
+_**Propósito/Responsabilidad**_: Gestión de usuarios en el sistema, incluyendo creación, actualización y autenticación.
+
+_**Interfase(s)**_: 
+- Obtención de información de usuarios.
+- Confirmación de correo electrónico.
+- Recuperación de contraseña.
+- Gestión de contraseñas.
+
+_**Lambda(s)**_:
+
+- **HU-TP-00 (GET)**
+
+- **HU-TP-01_LAM-001 (PUT, POST)**
+
+- **HU-TP-02 (PATCH, PUT)**
+
+- **HU-TP-88 (PUT, POST)**
+
+==== Caja Negra 12: gestionar-clientes
+
+_**Propósito/Responsabilidad**_: Administración de los datos y roles de los clientes, incluyendo la creación y actualización de información.
+
+_**Interfase(s)**_: 
+- Creación de nuevos clientes.
+- Actualización de roles.
+- Recuperación de información de clientes.
+
+_**Lambda(s)**_:
+
+- **HU-TP-04_LAM-002 (PATCH)**
+
+- **HU-TP-04_LAM-001 (POST)**
+
+- **HU-TP-04_LAM-005 (GET)**
+
+- **HU-TP-41_LAM-001 (GET, OPTIONS)**
+
+- **HU-TP-35_LAM-001 (GET)**
+
+- **HU-TP-25_LAM-001 (GET, PATCH, OPTIONS)**
+
+- **HU-TP-35_LAM-001 (GET, OPTIONS)**
+
+==== Caja Negra 13: gestionar-alumnos
+
+_**Propósito/Responsabilidad**_: Gestión de la información de alumnos y métricas corporales asociadas.
+
+_**Interfase(s)**_: 
+- Consulta de alumnos por entrenador.
+- Recuperación de métricas corporales.
+
+_**Lambda(s)**_:
+
+- **HU-TP-26_LAM-002 (GET)**
+
+- **HU-TP-23_LAM-001 (GET, OPTIONS)**
+
+==== Caja Negra 14: gestionar-empleados
+
+_**Propósito/Responsabilidad**_: Administración del personal, incluyendo su registro, asistencia y estado de activación.
+
+_**Interfase(s)**_: 
+- Listado de empleados.
+- Registro de nuevos empleados.
+- Gestión de asistencias.
+- Actualización del estado de activación.
+
+_**Lambda(s)**_:
+
+- **HU-TP-57_LAM-001 (GET)**
+
+- **HU-TP-57_LAM-002 (GET)**
+
+- **HU-TP-57_LAM-003 (GET)**
+
+- **HU-TP-73_LAM-001 (GET, POST)**
+
+- **HU-TP-74_LAM-001 (GET, OPTIONS)**
+
+- **HU-TP-75_LAM-001 (GET, OPTIONS, POST, PUT)**
+
+==== Caja Negra 15: gestionar-alumnos-por-rango
+
+_**Propósito/Responsabilidad**_: Gestión de la consulta de alumnos y clientes en función de client_id o staff_id.
+
+_**Interfase(s)**_: 
+- Consulta de alumnos asociados a un entrenador.
+- Obtención de detalles de un cliente específico.
+
+_**Lambda(s)**_:
+
+- **HU-TP-26_LAM-002 (GET)**
+
+==== Caja Negra 16: gestionar-sedes
+
+_**Propósito/Responsabilidad**_: Administración de las sedes, incluyendo su registro y actualización.
+
+_**Interfase(s)**_: 
+- Registro de nuevas sedes.
+- Listado de sedes activas o inactivas.
+- Actualización del estado de las sedes.
+
+_**Lambda(s)**_:
+
+- **HU-TP-76_LAM-001 (POST)**
+
+- **HU-TP-77_LAM-001 (GET, PUT)**
+
+==== Caja Negra 17: gestionar-productos
+
+_**Propósito/Responsabilidad**_: Gestión de productos en la base de datos, permitiendo consultas y actualizaciones.
+
+_**Interfase(s)**_: 
+- Consulta de productos por nombre y tipo.
+- Actualización de la sede de un producto.
+- Recuperación de detalles de productos.
+
+_**Lambda(s)**_:
+
+- **HU-TP-17_LAM-001 (GET)**
+
+- **HU-TP-67_LAM-001 (GET, PUT)**
+
+- **HU-TP-68_LAM-001 (GET)**
+
+- **HU-TP-84_LAM-001 (GET, POST, PUT, DELETE)**
+
+- **HU-TP-87_LAM-001 (OPTIONS, POST, GET, PATCH)**
+
+==== Caja Negra 18: gestionar-membresias
+
+_**Propósito/Responsabilidad**_: Administración de las membresías y su asignación a los clientes.
+
+_**Interfase(s)**_: 
+- Listado de todas las membresías.
+- Asignación de una membresía a un cliente.
+- Actualización de suscripciones de alumnos.
+
+_**Lambda(s)**_:
+
+- **HU-TP-04_LAM-003 (GET, POST)**
+
+- **HU-TP-04_LAM-004 (POST)**
+
+- **HU-TP-21_LAM-001 (GET, POST)**
+
+- **HU-TP-78_LAM-001 (GET, POST)**
+
+- **HU-TP-79_LAM-001 (GET, PUT)**
+
+==== Caja Negra 19: gestionar-compras
+
+_**Propósito/Responsabilidad**_: Registrar y gestionar reportes de compra, incluyendo la obtención de tipos de productos y generación de informes de compra.
+
+_**Interfase(s)**_: 
+- Registro de compras mediante POST.
+- Obtención de tipos de productos y listados mediante POST.
+- Respuesta de ruta no encontrada mediante GET.
+
+_**Lambda(s)**_:
+
+- **HU-TP-61_LAM-001 (POST, GET)**
+
+
+==== Caja Negra 20: gestionar-ventas
+
+_**Propósito/Responsabilidad**_: Procesar la compra de artículos online, manejando transacciones de productos y membresías.
+
+_**Interfase(s)**_: 
+- Procesamiento de pagos mediante Culqi para productos y membresías.
+- Generación de boletas electrónicas con SUNAT y envío de confirmaciones a clientes mediante SendGrid.
+
+_**Lambda(s)**_:
+
+- **HU-TP-18_LAM-001 (POST)**
+
+
+==== Caja Negra 21: gestionar-métricas-del-alumno
+
+_**Propósito/Responsabilidad**_: Consultar y registrar métricas corporales de los alumnos, incluyendo el cálculo del Índice de Masa Corporal (IMC).
+
+_**Interfase(s)**_: 
+- Consulta de métricas corporales mediante GET.
+- Registro de métricas mediante POST.
+- Gestión de métricas nutricionales y objetivos desde la perspectiva de un nutricionista.
+
+_**Lambda(s)**_:
+
+- **HU-TP-14_LAM-001 (GET)**
+
+- **HU-TP-22_LAM-001 (POST)**
+
+- **HU-TP-89_LAM-001 (GET, POST)**
+
+==== Caja Negra 22: gestionar-reporte-de-estadisticas
+
+_**Propósito/Responsabilidad**_: Visualizar y descargar reportes de compra aplicando filtros.
+
+_**Interfase(s)**_: 
+- Visualización de reportes de compra mediante POST.
+- Descarga de reportes en formato PDF.
+
+_**Lambda(s)**_:
+
+- **HU-TP-62_LAM-001 (POST)**
+
+==== Caja Negra 23: gestionar-plan-de-alimentación
+
+_**Propósito/Responsabilidad**_: Generar y guardar planes de nutrición personalizados para los clientes.
+
+_**Interfase(s)**_: 
+- Creación de planes de nutrición mediante POST.
+- Visualización del último plan de nutrición de un cliente mediante GET.
+
+_**Lambda(s)**_:
+
+- **HU-TP-34_LAM-001 (POST)**
+
+- **HU-TP-13_LAM-001 (GET)**
+
+- **HU-TP-36 (GET)**
+
+
+==== Caja Negra 24: gestionar-plan-de-entrenamiento
+
+_**Propósito/Responsabilidad**_: Generar y gestionar planes de entrenamiento personalizados para los clientes.
+
+_**Interfase(s)**_: 
+- Creación de planes de entrenamiento mediante POST.
+- Recuperación de planes de entrenamiento mediante GET.
+- Mantenimiento de registros de ejercicios mediante POST y PUT.
+
+_**Lambda(s)**_:
+
+- **HU-TP-11_LAM-001 (GET, POST, OPTIONS)**
+
+- **HU-TP-27_LAM-001 (POST, GET)**
+
+- **HU-TP-28_LAM-001 (POST, GET)**
+
+- **HU-TP-30_LAM-001 (GET, POST, PUT)**
+
+==== Caja Negra 25: gestionar-plan-de-tratamiento
+
+_**Propósito/Responsabilidad**_: Generar y gestionar planes de tratamiento personalizados para clientes premium.
+
+_**Interfase(s)**_: 
+- Creación de planes de tratamiento mediante POST.
+- Visualización de planes de tratamiento mediante GET.
+
+_**Lambda(s)**_:
+
+- **HU-TP-40_LAM-001 (GET, POST, UPDATE)**
+
+- **HU-TP-38_LAM-001 (POST)**
+
+- **HU-TP-38_LAM-002 (POST)**
+
+- **HU-TP-39_LAM-001 (GET)**
+
+- **HU-TP-40_LAM-002 (GET, POST)**
+
+- **HU-TP-90_LAM-001 (GET)** 
+
+==== Caja Negra 26: gestionar-eventos
+
+_**Propósito/Responsabilidad**_: Permitir la consulta y registro de eventos para los alumnos.
+
+_**Interfase(s)**_: 
+- Consulta de eventos mediante GET.
+- Registro de eventos mediante POST.
+
+_**Lambda(s)**_:
+
+- **HU-TP-10_LAM-001 (GET, POST)**
+
+- **HU-TP-50_LAM-001 (GET, PUT)**
+
+- **HU-TP-49_LAM-001 (GET, POST)**
+
+==== Caja Negra 27: gestionar-check-in-empleados
+
+_**Propósito/Responsabilidad**_: Facilitar el registro de entrada de los empleados en la sede.
+
+_**Interfase(s)**_: 
+- Registro de check-in mediante POST.
+- Consulta de ubicación de la sede mediante GET.
+
+_**Lambda(s)**_:
+
+- **HU-TP-09_LAM-001 (POST, GET)**
+
 
 ifdef::arc42help[]
 
 endif::arc42help[]
 
-_<Propósito/Responsabilidad>_
-
-_<Interfase(s)>_
-
-_<(Opcional) Características de Calidad/Performance>_
-
-_<(Opcional) Ubicación Archivo/Directorio>_
-
-_<(Opcional) Requerimientos Satisfechos>_
-
-_<(Opcional) Riesgos/Problemas/Incidentes Abiertos>_
-
-
-
-
-==== <Caja Negra 2>
-
-_<plantilla de caja negra>_
-
-==== <Caja Negra N>
-
-_<Plantilla de caja negra>_
-
-
-==== <Interfase 1>
-
-...
-
-==== <Interfase m>
 
 === Nivel 2
 
@@ -74,49 +433,204 @@ ifdef::arc42help[]
 
 endif::arc42help[]
 
-==== Caja Blanca _<bloque de construcción 1>_
+==== Caja Negra 11: gestionar-usuarios
 
-ifdef::arc42help[]
+===== Caja Blanca 1: HU-TP-00 (GET)
+Esta lambda permite obtener información de un usuario específico mediante su username, realizando una búsqueda en las tablas de clientes (t_clients) y personal (t_staff) unidas a la tabla de usuarios (t_users) para obtener datos como el nombre completo, rol y URL de imagen del usuario.
 
-endif::arc42help[]
+===== Caja Blanca 2: HU-TP-01_LAM-001 (PUT, POST)
+Esta lambda proporciona la confirmación de correo electrónico y el inicio de sesión para usuarios en un User Pool de Cognito, permitiendo en el método PUT confirmar el correo electrónico mediante un código y en el método POST gestionar el inicio de sesión devolviendo tokens de autenticación para usuarios autenticados correctamente.
 
-_<plantilla de caja blanca>_
+===== Caja Blanca 3: HU-TP-02 (PATCH, PUT)
+Esta lambda gestiona el proceso de recuperación de contraseña para usuarios, permitiendo con el método PATCH enviar un código de verificación al correo del usuario y con el método PUT confirmar el código y establecer una nueva contraseña.
 
-==== Caja Blanca _<bloque de construcción 2>_
+===== Caja Blanca 4: HU-TP-88 (PUT, POST)
+Esta lambda permite la gestión de contraseñas y el inicio de sesión de usuarios, actualizando con el método PUT la contraseña del usuario en AWS Cognito y en la base de datos PostgreSQL, y permitiendo con el método POST el inicio de sesión autenticándose mediante Cognito, retornando tokens de autenticación si el inicio es exitoso.
 
+==== Caja Negra 12: gestionar-clientes
 
-_<plantilla de caja blanca>_
+===== Caja Blanca 5: HU-TP-04_LAM-002 (PATCH)
+Esta lambda actualiza el rol de un usuario en la base de datos y en el servicio de Cognito de AWS, verificando primero que el usuario exista y luego asignándole el rol de "Cliente Regular" en la tabla t_clients y en el perfil de usuario en Cognito.
 
-...
+===== Caja Blanca 6: HU-TP-04_LAM-001 (POST)
+Esta lambda gestiona la creación de un nuevo cliente, validando el número de documento usando la API de RENIEC, generando un nombre de usuario único y almacenando los datos del cliente en PostgreSQL, incluyendo una imagen opcional en S3 y registrando al usuario en Cognito con el rol de "cliente".
 
-==== Caja Blanca _<bloque de construcción m>_
+===== Caja Blanca 7: HU-TP-04_LAM-005 (GET)
+Esta lambda recupera la información de un cliente en particular utilizando el clientId como parámetro de búsqueda en la base de datos PostgreSQL, devolviendo datos como número de teléfono, nombres, dirección de ubicación y nombre de membresía o un mensaje de error si el cliente no se encuentra.
 
+===== Caja Blanca 8: HU-TP-41_LAM-001 (GET, OPTIONS)
+Este Lambda permite a un fisioterapeuta visualizar la lista de clientes, ofreciendo opciones para buscar clientes específicos por DNI, ID de cliente o membresía (Black o Premium), así como una lista completa de clientes con detalles de su plan de tratamiento, si está disponible.
 
-_<plantilla de caja blanca>_
+===== Caja Blanca 9: HU-TP-35_LAM-001 (GET)
+Este Lambda permite visualizar una lista de clientes nutricionistas, proporcionando la capacidad de buscar por DNI y filtrar clientes según su membresía, mostrando detalles específicos de un cliente al buscar por client_id, documento (DNI) o membresía.
 
+===== Caja Blanca 10: HU-TP-25_LAM-001 (GET, PATCH, OPTIONS)
+Este Lambda busca un cliente en la base de datos por su documento (DNI) y asigna un cliente a un entrenador, gestionando las solicitudes GET y PATCH para retornar datos del cliente y asignar el entrenador correspondiente, además de manejar verificaciones CORS para solicitudes OPTIONS.
 
+===== Caja Blanca 11: HU-TP-35_LAM-001 (GET, OPTIONS)
+Esta lambda permite visualizar una lista de clientes nutricionistas, realizando búsquedas por DNI y filtrando según su membresía, y retornando la lista completa de clientes si no se especifican parámetros.
 
-=== Nivel 3
+==== Caja Negra 13: gestionar-alumnos
 
-ifdef::arc42help[]
+===== Caja Blanca 12: HU-TP-26_LAM-002 (GET)
+Esta lambda gestiona la consulta de alumnos y clientes en función de los parámetros client_id o staff_id. Si se recibe un staff_id, se obtiene una lista de alumnos asociados con ese entrenador. Si se proporciona un client_id, se obtienen los detalles de un cliente específico, incluyendo nombre, género, entrenador, sede y membresía.
 
-endif::arc42help[]
+===== Caja Blanca 13: HU-TP-23_LAM-001 (GET, OPTIONS)
+Esta Lambda se encarga de gestionar la información relacionada con los alumnos y sus métricas corporales en un gimnasio. Permite consultar los alumnos asignados a un entrenador específico, obtener detalles de un cliente por su ID, y recuperar las métricas corporales de un cliente. Utiliza consultas SQL para interactuar con la base de datos de PostgreSQL, proporcionando respuestas en formato JSON y manejando diferentes rutas y parámetros de consulta para realizar estas operaciones.
 
-==== Caja Blanca <_bloque de construcción x.1_>
+==== Caja Negra 14: gestionar-empleados
 
-ifdef::arc42help[]
+===== Caja Blanca 14: HU-TP-57_LAM-001 (GET)
+Esta lambda se encarga de listar el personal filtrado por sede y rol. Permite consultar los empleados que trabajan en una sede específica, o en una combinación de sede y rol, utilizando una consulta a la base de datos PostgreSQL. La respuesta agrupa los resultados por sede, proporcionando información sobre cada empleado, como su ID, nombre y rol, facilitando así la gestión del personal de manera más eficiente.
 
-endif::arc42help[]
+===== Caja Blanca 15: HU-TP-57_LAM-002 (GET)
+Esta lambda permite listar los detalles de un empleado específico filtrado por su ID (staff_id). Además, ofrece la opción de descargar esta información en formato PDF. Si el parámetro download se establece en true, se genera un documento PDF que contiene todos los detalles del personal, como nombre, rol, y datos de contacto, que se envía como un archivo adjunto. Si no se solicita la descarga, la información se devuelve en formato JSON. En caso de no encontrar al empleado, se retorna un mensaje de error adecuado.
 
-_<plantilla de caja blanca>_
+===== Caja Blanca 16: HU-TP-57_LAM-003 (GET)
+Esta lambda permite listar las asistencias del personal dentro de un rango de fechas especificado por los parámetros date_min y date_max. Si alguno de estos parámetros no se proporciona, se retorna un error indicando que son obligatorios. La lambda consulta la base de datos para obtener los registros de asistencia, incluyendo el ID de la asistencia, el ID del empleado, el nombre del empleado, la fecha y los tiempos de entrada y salida. Finalmente, devuelve los datos en formato JSON. En caso de que ocurra un error durante la consulta, se captura y retorna un mensaje de error adecuado.
 
+===== Caja Blanca 17: HU-TP-73_LAM-001 (GET, POST)
+Esta lambda se encarga de registrar un nuevo empleado, permitiendo buscar información a través del DNI en la API de Reniec y almacenando los datos obtenidos junto con los datos adicionales del empleado en una base de datos PostgreSQL. Además, genera un nombre de usuario único en función del nombre y apellidos del empleado y crea una entrada en Amazon Cognito para el manejo de autenticación. También permite obtener información sobre géneros, roles y ubicaciones, ofreciendo una funcionalidad completa para la gestión del personal.
 
-==== Caja Blanca <_bloque de construcción x.2_>
+===== Caja Blanca 18: HU-TP-74_LAM-001 (GET, OPTIONS)
+Esta lambda se encarga de gestionar la información del personal, permitiendo obtener una lista de todos los empleados o buscar uno específico mediante su documento (DNI). Si se llama sin parámetros, devuelve todos los registros de la tabla t_staff. Si se proporciona un DNI, la lambda consulta la base de datos y retorna los datos del empleado correspondiente, manejando adecuadamente posibles errores, como la no existencia del empleado o problemas de conexión a la base de datos.
 
-_<plantilla de caja blanca>_
+===== Caja Blanca 19: HU-TP-75_LAM-001 (GET, OPTIONS, POST, PUT)
+Esta lambda se encarga de gestionar el estado de activación de un empleado en el sistema. Requiere el parámetro staff_id para identificar al empleado. Si no se proporciona, devuelve un error 400. Luego, consulta la base de datos para obtener el estado actual del empleado y, si existe, invierte su estado (de activo a inactivo o viceversa). Finalmente, actualiza el registro en la base de datos y devuelve un mensaje indicando el nuevo estado del empleado. En caso de errores en la consulta o actualizaciones, se manejan adecuadamente y se retorna un mensaje de error.
 
+==== Caja Negra 15: gestionar-alumnos-por-rango
 
+===== Caja Blanca 20: HU-TP-26_LAM-002 (GET)
+Esta lambda gestiona la consulta de alumnos y clientes en función de los parámetros client_id o staff_id. Si se recibe un staff_id, se obtiene una lista de alumnos asociados con ese entrenador. Si se proporciona un client_id, se obtienen los detalles de un cliente específico, incluyendo nombre, género, entrenador, sede y membresía.
 
-==== Caja Blanca <_bloque de construcción y.1_>
+==== Caja Negra 16: gestionar-sedes
 
-_<plantilla de caja blanca>_
+===== Caja Blanca 21: HU-TP-76_LAM-001 (POST)
+Esta lambda se encarga de registrar nuevas sedes en la base de datos. Esta lambda procesa solicitudes POST para mejorar la gestión de las sedes actuales. Al recibir los datos del formulario, verifica la existencia de campos obligatorios como nombre, departamento, provincia, distrito, latitud y longitud. Si se proporciona un archivo de imagen, este se sube a Amazon S3 y se almacena la URL resultante en la base de datos. Finalmente, se inserta un nuevo registro en la tabla t_locations, devolviendo un mensaje de éxito junto con los detalles de la sede registrada.
+
+===== Caja Blanca 22: HU-TP-77_LAM-001 (GET, PUT)
+Esta lambda se utiliza para listar y actualizar sedes en la base de datos. Al recibir una solicitud GET, verifica si se desean listar todas las sedes o filtrar por su estado activo, devolviendo la lista correspondiente. Si la solicitud es un PUT, se actualiza el estado de una sede específica según el location_id proporcionado en el cuerpo de la solicitud, asegurándose de que se incluyan los parámetros requeridos y validando que el estado sea un valor booleano. En ambos casos, la lambda responde con un mensaje que indica el éxito de la operación.
+
+==== Caja Negra 17: gestionar-productos
+
+===== Caja Blanca 23: HU-TP-17_LAM-001 (GET)
+Esta lambda se encarga de consultar productos en la base de datos, permitiendo filtrar los resultados por el nombre del tipo de producto y/o el nombre del producto. Al recibir una solicitud GET, se construye dinámicamente una consulta SQL basada en los parámetros de consulta proporcionados. Si se incluyen ambos parámetros, se filtra por ambos; si solo uno es proporcionado, se filtra por ese único parámetro. Si no se proporciona ningún filtro, la lambda devolverá todos los productos disponibles. En caso de que no se encuentren productos, se responde con un estado 404, y en caso de error en la operación, se devuelve un estado 500.
+
+===== Caja Blanca 24: HU-TP-67_LAM-001 (GET, PUT)
+Esta lambda se encarga de gestionar la información de los productos en una base de datos PostgreSQL, permitiendo buscar productos por ID o nombre, así como asignar una nueva sede a un producto existente. Al recibir una solicitud, evalúa el método HTTP y la ruta para determinar la acción a realizar. Si se utiliza el método GET, permite buscar un producto por su ID o filtrar productos en base a un término de búsqueda. Con el método PUT, actualiza la sede de un producto específico. En ambos casos, la lambda proporciona respuestas adecuadas y códigos de estado HTTP para diferentes situaciones, asegurando una comunicación clara y efectiva con el cliente.
+
+===== Caja Blanca 25: HU-TP-68_LAM-001 (GET)
+Esta lambda se encarga de manejar solicitudes HTTP para recuperar detalles de productos desde una base de datos PostgreSQL. Dependiendo de los parámetros de consulta, permite filtrar los productos por ID de sede, tipo de producto y nombre del producto. La función valida los parámetros proporcionados y ejecuta una consulta SQL para devolver los productos que coincidan con los criterios especificados. Si no se encuentra ningún producto, responde con un mensaje de error, y si ocurre un problema durante el proceso, se devuelve un mensaje genérico de error.
+
+===== Caja Blanca 26: HU-TP-84_LAM-001 (GET, POST, PUT, DELETE)
+Esta lambda se encarga de gestionar tipos de productos en una base de datos PostgreSQL. Permite crear, leer, actualizar y eliminar registros de tipos de productos a través de una API. Dependiendo del método recibido en la solicitud, la lambda ejecuta diferentes consultas SQL para realizar la acción solicitada, manejando también respuestas adecuadas para los casos en que no se encuentren registros o se envíen métodos no soportados.
+
+===== Caja Blanca 27: HU-TP-87_LAM-001 (OPTIONS, POST, GET, PATCH)
+Este Lambda gestiona productos en una base de datos PostgreSQL y permite:
+POST: Procesar la subida de archivos de imágenes de productos, convertirlas a un modelo 3D utilizando Gradio, almacenar el modelo en S3 y registrar el producto en la base de datos con su información (tipo, nombre, descripción, precio, URL de la imagen y modelo 3D).
+PATCH: Actualizar el estado de un producto específico (activo/inactivo).
+GET: Consultar productos de la base de datos con filtros opcionales (tipo de producto, estado de actividad).
+
+==== Caja Negra 18: gestionar-membresias
+
+===== Caja Blanca 28: HU-TP-04_LAM-003 (GET, POST)
+Este código permite gestionar las membresías y sedes para los clientes. Con el método GET, se obtienen todas las membresías y sedes disponibles desde la base de datos. Por otro lado, con el método POST, se permite asignar una membresía a un cliente, validando que la frecuencia de pago (en meses) esté entre 1 y 12. Si los datos son válidos, se inserta un nuevo registro de membresía en la tabla t_client_memberships, y se devuelve un mensaje de éxito.
+
+===== Caja Blanca 29: HU-TP-04_LAM-004 (POST)
+Este lambda asigna una membresía a un cliente específico. Primero, valida el client_id basado en el user_id proporcionado, y luego inserta una nueva membresía en la tabla t_client_memberships en PostgreSQL. Finalmente, actualiza la fecha de inicio de la membresía del cliente, confirmando así su asignación exitosa.
+
+===== Caja Blanca 30: HU-TP-21_LAM-001 (GET, POST)
+Esta lambda permite actualizar la suscripción de un alumno. A través del método GET, puede obtener todas las membresías disponibles o las suscripciones específicas de un cliente usando su client_id. En caso de que no se encuentre ninguna suscripción activa, también se informa al usuario. Por otro lado, el método POST se utiliza para actualizar la suscripción de un alumno. Este método valida si el cliente tiene una suscripción activa y realiza el cobro a través de Culqi, registrando la nueva suscripción en la base de datos y calculando su fecha de finalización.
+
+===== Caja Blanca 31: HU-TP-78_LAM-001 (GET, POST)
+Esta lambda permite gestionar las membresías en una base de datos PostgreSQL. Proporciona dos funcionalidades principales: mediante el método POST, permite agregar una nueva membresía con campos como nombre, precio y descripción; si alguno de estos campos está vacío, se devuelve un error. Con el método GET, permite obtener detalles de una membresía específica mediante su ID o listar todas las membresías disponibles en la base de datos. Si se solicita una membresía por ID y no se encuentra, se devuelve un error 404. En caso de errores en las consultas a la base de datos, se maneja adecuadamente el error y se devuelve un mensaje claro al usuario.
+
+===== Caja Blanca 32: HU-TP-79_LAM-001 (GET, PUT)
+Esta lambda permite gestionar las membresías en una base de datos PostgreSQL, específicamente habilitando o deshabilitando membresías. Mediante el método GET, se pueden listar todas las membresías disponibles. Con el método PUT, se puede actualizar la información de una membresía existente, como su descripción y precio, o cambiar su estado activo/inactivo. Si el ID de la membresía no se proporciona, se devuelve un error. En caso de éxito, se retorna un mensaje confirmando la activación o desactivación, así como los detalles de la membresía actualizada. Además, maneja adecuadamente los errores y las solicitudes CORS.
+
+==== Caja Negra 19: gestionar-compras
+
+===== Caja Blanca 33: HU-TP-61_LAM-001 (POST, GET)
+Este Lambda permite registrar y gestionar reportes de compra. A través del método POST, realiza varias operaciones según la acción solicitada en el cuerpo de la solicitud, como obtener tipos de productos, listar productos por tipo, gestionar productos temporalmente almacenados y generar informes completos de compra, los cuales se almacenan en una base de datos. El método GET devuelve un mensaje de ruta no encontrada.
+
+==== Caja Negra 20: gestionar-ventas
+
+===== Caja Blanca 34: HU-TP-18_LAM-001 (POST)
+Esta lambda permite procesar la compra de artículos online, manejando dos tipos de transacciones: productos y membresías. Para productos, procesa el pago a través de Culqi, genera una boleta electrónica con SUNAT, registra la compra en la base de datos PostgreSQL y envía un correo de confirmación al cliente mediante SendGrid con el PDF de la boleta. Para membresías, simplemente procesa el pago a través de Culqi. Incluye manejo de CORS y validaciones para asegurar que las transacciones se realicen correctamente, calculando automáticamente los impuestos (IGV) y generando números de boleta secuenciales para cada compra de productos.
+
+==== Caja Negra 21: gestionar-métricas-del-alumno
+
+===== Caja Blanca 35: HU-TP-14_LAM-001 (GET)
+Esta lambda permite consultar y calcular el Índice de Masa Corporal (IMC) de un cliente basándose en sus métricas corporales registradas en la base de datos. A través de parámetros de consulta, se especifica el client_id y el mes del que se desean obtener las métricas. Si se encuentran datos, calcula el IMC y devuelve un mensaje sobre el estado de peso del usuario en función del valor obtenido, junto con las métricas correspondientes. Si no se encuentran métricas para el cliente y mes especificados, se devuelve un mensaje de error. También se maneja la situación en la que no se proporcionan los parámetros requeridos, devolviendo un mensaje indicando que deben ser ingresados.
+
+===== Caja Blanca 36: HU-TP-22_LAM-001 (POST)
+Esta lambda permite registrar las métricas corporales de un cliente en la base de datos. A través de una solicitud POST, recibe los datos del cliente, como su ID, altura, peso y medidas corporales. Si los campos requeridos no están completos, devuelve un error con un mensaje informativo. Si todos los datos son válidos, se inserta un nuevo registro de métricas en la tabla correspondiente y se devuelve un mensaje de éxito junto con las métricas registradas. En caso de que ocurra un error durante el proceso de registro, se maneja adecuadamente y se devuelve un mensaje de error.
+
+===== Caja Blanca 37: HU-TP-89_LAM-001 (GET, POST)
+Esta lambda se encarga de registrar y gestionar métricas nutricionales de los clientes desde la perspectiva de un nutricionista. Permite la adición de métricas como peso, altura e IMC, así como la creación o actualización de objetivos nutricionales. Si se realiza una solicitud GET con un client_id, devuelve los detalles del cliente y sus métricas, o un mensaje indicando que no tiene métricas registradas. Para las solicitudes POST, valida los datos recibidos y actualiza o inserta en las tablas correspondientes de la base de datos, asegurándose de que no existan duplicados en los nombres de los objetivos nutricionales.
+
+==== Caja Negra 22: gestionar-reporte-de-estadisticas
+
+===== Caja Blanca 38: HU-TP-62_LAM-001 (POST)
+Este Lambda permite visualizar reportes de compra y sus detalles, aplicando diversos filtros, como el nombre, orden y unidad temporal. También permite descargar los reportes en formato PDF, facilitando el acceso a la información de compra para el rol de manager.
+
+==== Caja Negra 23: gestionar-plan-de-alimentación
+
+===== Caja Blanca 39: HU-TP-13_LAM-001 (GET)
+Esta lambda permite a los clientes visualizar su último plan de nutrición. Cuando se hace una solicitud GET con el parámetro clientId, la función consulta la base de datos para obtener el plan de nutrición más reciente asociado a ese cliente. Si se encuentra un plan, devuelve los detalles del plan junto con los días específicos correspondientes a dicho plan. En caso de que el cliente no tenga un plan registrado, se envía un mensaje de error adecuado.
+
+===== Caja Blanca 40: HU-TP-34_LAM-001 (POST)
+Esta lambda permite generar y guardar un plan de nutrición para un cliente. Al recibir una solicitud POST, la función extrae los datos del cuerpo de la solicitud, incluyendo el ID del cliente y la información detallada sobre el plan de nutrición y sus días correspondientes. Si no se proporciona un ID de plan existente, se crea un nuevo registro en la base de datos para el plan de nutrición y se insertan los días asociados. La operación se realiza dentro de una transacción para garantizar la integridad de los datos, y si se completa correctamente, se devuelve un mensaje de éxito junto con el ID del plan de nutrición registrado.
+
+===== Caja Blanca 41: HU-TP-36 (GET)
+Esta lambda permite listar los detalles de los planes de nutrición, proporcionando diferentes funcionalidades según los parámetros de consulta. Si se especifica un dietPlanId, se devuelve el plan de nutrición correspondiente junto con sus días asociados. Si se solicita showAll=true, se recuperan todos los planes anteriores, excluyendo el más reciente. En caso de que no se proporcionen parámetros, la función devuelve el último plan de nutrición registrado y sus días. Si ocurren errores durante la operación, se manejan adecuadamente y se devuelven mensajes de error.
+
+==== Caja Negra 24: gestionar-plan-de-entrenamiento
+
+===== Caja Blanca 42: HU-TP-11_LAM-001 (GET, POST, OPTIONS)
+Esta lambda se encarga de conectarse a una base de datos PostgreSQL para recuperar información sobre planes de entrenamiento de un cliente específico, los días asociados a un plan de entrenamiento, y los ejercicios programados para un día determinado. Según los parámetros de entrada (clientId, planId, o diaId), ejecuta las consultas correspondientes para obtener la información solicitada. En el método POST, permite crear nuevos planes de entrenamiento, asegurando que todos los campos requeridos estén completos. La lambda gestiona errores de manera apropiada y devuelve mensajes claros para el cliente.
+
+===== Caja Blanca 43: HU-TP-27_LAM-001 (POST, GET)
+Esta lambda se encarga de crear y recuperar un plan de entrenamiento para un cliente específico. Al recibir una solicitud, valida el cuerpo para el método POST y establece una conexión con la base de datos PostgreSQL. Luego, si se usa POST, consulta los días de entrenamiento del cliente y los ejercicios programados para esos días. Si se encuentra un plan de entrenamiento, devuelve los detalles del mismo, incluyendo el día y los ejercicios asignados. En caso de no encontrar datos o de ocurrir un error, responde con un mensaje apropiado. Para el método GET, se puede recuperar información relacionada con los parámetros de consulta proporcionados.
+
+===== Caja Blanca 44: HU-TP-28_LAM-001 (POST, GET)
+Esta Lambda maneja la inserción de un plan de entrenamiento y sus respectivos ejercicios. Al recibir una solicitud POST, valida los datos de entrada, incluyendo el día del plan y la lista de ejercicios. Si se proporciona un training_plan_id, se utiliza para insertar un nuevo plan de entrenamiento o se crea uno nuevo. También verifica si el día del entrenamiento ya existe y, si no, lo agrega junto con los ejercicios relacionados. En caso de que la solicitud sea GET, permite recuperar tipos de ejercicios desde la base de datos para uso en un ComboBox, facilitando la selección de ejercicios en el plan.
+
+===== Caja Blanca 45: HU-TP-30_LAM-001 (GET, POST, PUT)
+Esta lambda permite mantener registros de ejercicios, facilitando la creación, actualización y listado de ejercicios. Al recibir una solicitud POST, guarda información sobre ejercicios, incluyendo la subida de videos en formatos MP4 o MPEG. Para las solicitudes PUT, actualiza el estado de un ejercicio (habilitar o deshabilitar) según el ID proporcionado. También permite listar los ejercicios disponibles mediante solicitudes GET, con la opción de filtrar por estado y tipo de ejercicio. Además, gestiona la conexión a una base de datos PostgreSQL y utiliza S3 de AWS para almacenar los videos subidos.
+
+==== Caja Negra 25: gestionar-plan-de-entrenamiento
+
+===== Caja Blanca 46: HU-TP-40_LAM-001 (GET, POST, UPDATE)
+Esta lambda se encarga de gestionar registros de ejercicios de tratamiento en una base de datos PostgreSQL. Permite realizar diversas operaciones como obtener todos los ejercicios, insertar nuevos ejercicios y actualizar el estado de los ejercicios (activos o inactivos). La lambda utiliza diferentes métodos según la operación solicitada, proporcionando respuestas adecuadas para cada acción y manejando errores en caso de que ocurran problemas durante el proceso.
+
+===== Caja Blanca 47: HU-TP-38_LAM-001 (POST)
+Esta lambda se encarga de crear planes de tratamiento para clientes premium o de tipo Black. Al recibir una solicitud, extrae los datos necesarios (ID del cliente, diagnóstico e instrucciones) del cuerpo del evento. Si faltan datos, responde con un error correspondiente. En caso contrario, inserta el nuevo plan de tratamiento en la base de datos y retorna un mensaje de éxito junto con el ID del plan creado. Si se produce un error durante la operación, se captura y se retorna un mensaje de error interno.
+
+===== Caja Blanca 48: HU-TP-38_LAM-002 (POST)
+Esta lambda se encarga de crear sesiones para los planes de tratamiento de los clientes. Al recibir una solicitud, extrae los detalles de la sesión (ID del plan de tratamiento, actividad, fecha y hora de la sesión) del cuerpo del evento. Si faltan datos obligatorios, retorna un mensaje de error correspondiente. Luego, verifica cuántas sesiones existen para el plan de tratamiento especificado y asigna un número de sesión adecuado. Después, inserta la nueva sesión en la base de datos y devuelve un mensaje de éxito junto con el ID de la sesión creada y el número de sesión. Si se produce un error durante la operación, se captura y se retorna un mensaje de error.
+
+===== Caja Blanca 49: HU-TP-39_LAM-001 (GET)
+Esta lambda permite visualizar y gestionar planes de tratamiento para clientes que poseen una membresía Black o Premium. A través de una API, puede listar clientes con dichas membresías, así como obtener detalles específicos de un plan de tratamiento asignado a un cliente, que incluye información sobre diagnósticos, instrucciones, sesiones y datos demográficos como género y edad. Dependiendo de los parámetros proporcionados, también puede recuperar planes de tratamiento de meses anteriores o el plan más reciente del cliente.
+
+===== Caja Blanca 50: HU-TP-40_LAM-002 (GET, POST)
+Esta lambda se encarga de gestionar los tipos de ejercicios relacionados con los planes de tratamiento. Permite listar todos los tipos de ejercicios mediante solicitudes GET, así como registrar nuevos tipos de ejercicios mediante solicitudes POST. Utiliza una base de datos PostgreSQL para almacenar y recuperar los datos de los tipos de ejercicios, asegurando que se manejen adecuadamente las respuestas y errores asociados a las operaciones de la base de datos.
+
+===== Caja Blanca 51: HU-TP-90_LAM-001 (GET)
+Esta lambda se encarga de listar el detalle de los planes de tratamiento filtrados por cliente. Permite obtener el último plan de tratamiento o todos los planes anteriores de un cliente específico, según el parámetro view proporcionado en la solicitud. Utiliza una base de datos PostgreSQL para recuperar los planes y sus sesiones asociadas, así como los ejercicios de cada sesión. Además, maneja adecuadamente errores y validaciones relacionadas con la entrada del cliente.
+
+==== Caja Negra 26: gestionar-eventos
+
+===== Caja Blanca 52: HU-TP-10_LAM-001 (GET, POST)
+Este lambda permite a los alumnos consultar eventos y registrarse en ellos. Con el método GET, los usuarios pueden visualizar eventos según su membresía, mostrándose todos los eventos para miembros premium o solo los de su sede en caso de membresías estándar. Con el método POST, los alumnos pueden inscribirse en un evento, asegurándose de que no estén registrados previamente. Retorna mensajes claros en cada paso, incluyendo errores si el evento no está disponible o ya están inscritos.
+
+===== Caja Blanca 53: HU-TP-50_LAM-001 (GET, PUT)
+Esta lambda se encarga de gestionar eventos en el sistema. Dependiendo del método HTTP utilizado, puede obtener todos los eventos, filtrar por diferentes criterios como fecha o estado de aprobación, o también actualizar el estado de aprobación de un evento específico mediante su event_id. Si se hace una solicitud GET sin parámetros, devuelve todos los eventos; si se incluyen filtros, devuelve los eventos que coinciden con esos criterios. En caso de una solicitud PUT, se actualiza el estado de aprobación del evento basado en la información proporcionada en el cuerpo de la solicitud. Cualquier error durante el proceso se captura y se devuelve un mensaje de error correspondiente.
+
+===== Caja Blanca 54: HU-TP-49_LAM-001 (GET, POST)
+Esta lambda permite a los encargados de eventos registrar, listar y filtrar eventos en el sistema. Según la acción especificada en el evento, puede registrar un nuevo evento, obtener eventos aprobados, rechazados o pendientes, así como filtrar eventos por ubicación. La función de registro inserta un nuevo evento en la base de datos con la información proporcionada, mientras que las funciones de obtención retornan listas de eventos según su estado de aprobación o ubicación. La lambda maneja las operaciones de forma asíncrona y gestiona cualquier error que pueda ocurrir durante el proceso.
+
+==== Caja Negra 27: gestionar-check-in-empleados
+
+===== Caja Blanca 55: HU-TP-09_LAM-001 (POST, GET)
+Esta lambda permite a los empleados realizar un check-in registrando su ubicación actual (latitud y longitud) mediante un método POST. La API valida si el empleado se encuentra en su ubicación de trabajo registrada (almacenada en la tabla t_locations). Si la ubicación es correcta, se registra la hora de entrada en la tabla t_staff_attendances. Además, mediante un método GET, la API permite obtener las coordenadas de la sede asignada al empleado, devolviendo su latitud y longitud.
