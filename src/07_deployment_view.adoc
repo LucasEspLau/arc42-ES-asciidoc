@@ -2,49 +2,111 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-deployment-view]]
 
+= Plataforma de Gestión Unificada para Gimnasios: Optimización y Control
+Franco Jesús Sánchez Villalobos (Product Owner)
+FIAFIT-2024-02
 
 == Vista de Despliegue
 
-ifdef::arc42help[]
-
-endif::arc42help[]
-
 === Nivel de infraestructura 1
 
-ifdef::arc42help[]
 
-endif::arc42help[]
-
-_**<Diagrama General>**_
+image::arquitectura.svg[alt="Diagrama de Despliegue", title="Diagrama de Despliegue", width=800]
 
 Motivación::
 
-_<Explicación en forma textual>_
+La infraestructura de la plataforma está diseñada para ofrecer escalabilidad y resiliencia, utilizando una arquitectura serverless en AWS. Este enfoque permite manejar eficientemente el tráfico de usuarios y las peticiones de servicios sin necesidad de administrar servidores físicos, mejorando el rendimiento y reduciendo costos operativos. La arquitectura de despliegue facilita la separación de entornos de desarrollo, QA y producción, permitiendo actualizaciones seguras y eficientes mediante CI/CD.
 
 Características de Calidad/Rendimiento::
 
-_<Explicación en forma textual>_
+La arquitectura está optimizada para alta disponibilidad y tiempos de respuesta rápidos. Las funciones Lambda proporcionan un entorno serverless altamente escalable, donde los microfrontends en React se despliegan en S3, Netlify y Render, dependiendo del entorno. El uso de bases de datos PostgreSQL en RDS y DynamoDB permite almacenar y acceder a grandes volúmenes de datos de manera confiable. Se implementan servicios como Grafana para monitoreo y visualización de métricas de rendimiento, asegurando la estabilidad y capacidad de respuesta de la plataforma.
 
 Mapeo de los Bloques de Construcción a Infraestructura:::
-_<Descripción del mapeo>_
-
+- **Frontend**: Microfrontends en React desplegados en Netlify/Render para desarrollo y en S3 para QA y producción.
+- **Backend**: AWS Lambda para cada funcionalidad (gestión de usuarios, productos, sedes, membresías, etc.).
+- **Bases de Datos**: PostgreSQL en Amazon RDS y DynamoDB para gestionar datos estructurados y no estructurados.
+- **CI/CD**: CodePipeline para integración y despliegue continuo, CodeBuild para construir y CodeDeploy para manejar el despliegue.
+- **Integraciones Externas**: Servicios de Reniec, Culqi, Google Maps Plataform, Sunat, Grafana, Twilio, Hugging Face, y Azure DevOps.
 
 === Nivel de Infraestructura 2
 
-ifdef::arc42help[]
+==== AWS S3 (Almacenamiento del Frontend)
 
-endif::arc42help[]
+image::s3-img.png[alt="Diagrama de S3", title="Diagrama de S3", width=800]
 
-==== _<Elemento de Infraestructura 1>_
 
-_<diagrama + explicación>_
+S3 se utiliza para almacenar y servir los microfrontends en React, proporcionando alta disponibilidad y escalabilidad. Los entornos de QA y producción usan S3 para alojar las interfaces de usuario, permitiendo actualizaciones rápidas y distribución global mediante Amazon CloudFront si es necesario.
 
-==== _<Elemento de Infraestructura 2>_
+==== AWS Lambda (Funciones Backend)
 
-_<diagrama + explicación>_
+image::lambda-img.png[alt="Diagrama de Lambdas", title="Diagrama de Lambdas", width=800]
 
-...
+Las funciones Lambda gestionan la lógica de negocio de la plataforma en un entorno serverless, eliminando la necesidad de administración de servidores. Cada Lambda está dedicada a una funcionalidad específica (por ejemplo, `lambda-gestionar-usuarios`, `lambda-gestionar-productos`, etc.), lo que facilita el mantenimiento y escalabilidad de la plataforma.
 
-==== _<Elemento de Infraestructura n>_
+==== Amazon RDS (PostgreSQL)
 
-_<diagrama + explicación>_
+image::rds-img.png[alt="Diagrama de RDS", title="Diagrama de RDS", width=800]
+
+Amazon RDS proporciona una base de datos relacional PostgreSQL para almacenar datos estructurados, como información de usuarios, membresías y pagos. Su gestión de backups y restauración facilita la continuidad del negocio, y su integración con VPC mejora la seguridad de los datos sensibles.
+
+==== DynamoDB (Base de Datos NoSQL)
+
+image::dynamodb-img.png[alt="Diagrama de DynamoDb", title="Diagrama de DynamoDb", width=800]
+
+DynamoDB es una base de datos NoSQL altamente escalable utilizada para almacenar datos no estructurados, como logs de actividades y configuraciones de sesiones de usuario. Su integración con Lambda permite una arquitectura eficiente y de bajo costo.
+
+==== AWS CodePipeline y CodeBuild (CI/CD)
+
+image::cicd-img.png[alt="Diagrama de CI/CD", title="Diagrama de CI/CD", width=800]
+
+CodePipeline y CodeBuild permiten la integración continua y despliegue continuo de la plataforma. El pipeline automatiza los pasos desde el código fuente en GitHub hasta el despliegue en los entornos de QA y producción, asegurando actualizaciones constantes y reduciendo los tiempos de inactividad.
+
+==== Integraciones Externas
+
+image::integraciones-img.png[alt="Diagrama de Integraciones", title="Diagrama de Integraciones", width=800]
+
+La plataforma utiliza múltiples servicios externos, integrados para ampliar su funcionalidad:
+- **Reniec**: Verificación de identidad.
+- **Culqi**: Procesamiento de pagos.
+- **Google Maps**: Navegación y localización de sedes.
+- **Sunat**: Validación de RUC de empresas.
+- **Grafana**: Monitoreo y visualización de métricas.
+- **Twilio**: Envío de notificaciones por WhatsApp.
+- **Hugging Face**: Servicios de IA para procesamiento de datos.
+- **Azure DevOps**: Gestión del proyecto y metodologías de desarrollo ágil.
+
+==== Seguridad y Autenticación
+
+image::seguridad-img.png[alt="Diagrama de Seguridad", title="Diagrama de Seguridad", width=800]
+
+El sistema de autenticación se basa en JWT (JSON Web Tokens) para gestionar las sesiones de usuario, utilizando Redux Toolkit en el cliente para almacenar la sesión de forma segura. Además, los permisos de acceso a las Lambdas se configuran mediante políticas de IAM, garantizando que cada servicio solo acceda a los recursos necesarios.
+
+==== QA y Herramientas de Testing
+
+image::images/qa-img.png.png[alt="Diagrama de QA", title="Diagrama de QA", width=800]
+
+El entorno de QA integra:
+- **Selenium (on premises)**: Para pruebas automáticas en el frontend, simula interacciones de usuario y asegura la funcionalidad en navegadores.
+- **SonarCloud**: Análisis estático de código para asegurar calidad y cumplimiento de estándares de código.
+- **Jest**: Ejecutado automáticamente en la fase de construcción (build) del pipeline, garantiza la correcta funcionalidad de componentes en entornos de desarrollo y QA.
+
+==== Gestión de Proyectos con Azure DevOps
+
+image::azure-img.png[alt="Diagrama de Azure", title="Diagrama de Azure", width=800]
+
+La plataforma utiliza Azure DevOps, incluyendo:
+- **Azure Boards**: Para la planificación y seguimiento de tareas en un marco ágil.
+- **Azure Test Plans**: Herramienta de gestión de pruebas para mantener la calidad de las entregas.
+- **Azure Pipelines (CI/CD)**: Para integrar, probar y desplegar el código en los diferentes entornos.
+
+Cada etapa en el pipeline de CI/CD en CodePipeline incluye ejecución de pruebas automáticas (Jest y SonarCloud) y se configura mediante un archivo de CloudFormation para orquestar los recursos necesarios en AWS.
+
+==== Entorno de Desarrollo
+
+image::netlify-img.png[alt="Diagrama de Netlify", title="Diagrama de Netlify", width=800]
+image::render-img.png[alt="Diagrama de Render", title="Diagrama de Render", width=800]
+
+
+Para el entorno de desarrollo, se utilizan:
+- **Netlify**: Para el despliegue del frontend.
+- **Render (PostgreSQL)**: Para una base de datos que respalda las funcionalidades en desarrollo, permitiendo pruebas previas al despliegue en entornos de QA y producción.
