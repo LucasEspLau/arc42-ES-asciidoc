@@ -7,7 +7,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 === Nivel de infraestructura 1
 
 
-image::arquitectura.svg[alt="Diagrama de Despliegue", title="Diagrama de Despliegue", width=800]
+image::arq-img.png[alt="Diagrama de Despliegue", title="Diagrama de Despliegue", width=800]
 
 Motivación::
 
