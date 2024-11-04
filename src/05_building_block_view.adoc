@@ -15,7 +15,7 @@ ifdef::arc42help[]
 
 endif::arc42help[]
 
-_**<Diagrama general>**_
+image::dia-compos.svg[alt="Diagrama de Componentes", title="Diagrama de Componentes", width=800]
 
 Motivación::
 
