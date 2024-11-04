@@ -13,4 +13,4 @@ image::contexto.svg[alt="Diagrama de Contexto de Negocio", title="Diagrama de Co
 
 En esta sección se describe el entorno técnico en el cual se implementará la plataforma. Se detallan los componentes técnicos, como AWS Lambda, RDS para PostgreSQL, DynamoDB, y el uso de herramientas de gestión y CI/CD como Azure DevOps y CodePipeline. También se debe considerar la arquitectura serverless y cómo afecta la implementación y el monitoreo de la aplicación.
 
-image::arquitectura.svg[alt="Diagrama de Contexto Técnico", title="Diagrama de Contexto Técnico", width=800]
+image::arq-img.png[alt="Diagrama de Contexto Técnico", title="Diagrama de Contexto Técnico", width=800]
