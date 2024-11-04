@@ -3,19 +3,132 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-runtime-view]]
 == Vista de Ejecución
 
-
 ifdef::arc42help[]
-
 endif::arc42help[]
 
-=== <Escenario de ejecución 1>
+=== Escenario de ejecución 1: Iniciar Sesión
+image::runtime/inicio.png[alt="Iniciar Sesión", title="Iniciar Sesión", width=800]
 
+* _Este escenario representa el proceso de inicio de sesión a través de un `POST` que envía `username` y `password`. Se obtienen respuestas de error y éxito._
+* _Otra `API PUT` permite confirmar el email con `username` y `confirmationCode`, incluyendo mensajes de error y éxito._
 
-* _<Inserte un diagrama de ejecución o la descripción del escenario>_
-* _<Inserte la descripción de aspectos notables de las interacciones entre los bloques de construcción mostrados en este diagrama.>_
+=== Escenario de ejecución 2: Restablecer Contraseña
+image::runtime/restablecer.png[alt="Restablecer Contraseña", title="Restablecer Contraseña", width=800]
+* _Se utiliza una `API PATCH` para iniciar el proceso de recuperación de contraseña, enviando `username` y gestionando respuestas de error y éxito._
+* _Un `PUT` confirma el restablecimiento con `username`, `confirmationCode`, y `newPassword`, con respuestas de error y éxito._
 
-=== <Escenario de ejecución 2>
+=== Escenario de ejecución 3: Registrar como Cliente Libre
+image::runtime/reg-cliente.png[alt="Registrar como Cliente Libre", title="Registrar como Cliente Libre", width=800]
+* _Un `POST` permite crear un usuario enviando todos los datos necesarios, con mensajes de error y éxito._
 
-=== ...
+=== Escenario de ejecución 4: Visualizar Artículos en Línea
+image::runtime/visual-artc-linea.png[alt="Visualizar Artículos en Línea", title="Visualizar Artículos en Línea", width=800]
+* _Se utiliza un `GET` para traer artículos en línea, con respuestas de éxito y error._
+* _Un `GET` adicional permite filtrar artículos por `producto_name`, con mensajes de error y éxito._
 
-=== <Escenario de ejecución n>
+=== Escenario de ejecución 5: Comprar Artículos en Línea
+image::runtime/comprar-artc.png[alt="Comprar Artículos en Línea", title="Comprar Artículos en Línea", width=800]
+* _Un `POST` realiza la compra en línea enviando `email`, `token` y los ítems comprados, con mensajes de éxito y error._
+
+=== Escenario de ejecución 6: Asignar Inventario
+image::runtime/asig-inven.png[alt="Asignar Inventario", title="Asignar Inventario", width=800]
+* _Un `GET` genera tipos de productos por ID, con respuestas de éxito y error._
+* _Otro `GET` trae productos sin sede y un `PUT` asigna un producto a una sede con `location_id`, con respuestas de éxito y error._
+
+=== Escenario de ejecución 7: Visualizar Informe de Inventario
+image::runtime/visual-inf-inv.png[alt="Visualizar Informe de Inventario", title="Visualizar Informe de Inventario", width=800]
+* _Un `GET` visualiza el informe de inventario por ID, con mensajes de éxito y error._
+
+=== Escenario de ejecución 8: Registrar Sedes
+image::runtime/reg-sedes.png[alt="Registrar Sedes", title="Registrar Sedes", width=800]
+* _Un `POST` permite registrar una sede con `nombre`, `address`, e `imagen`, con respuestas de éxito y error._
+
+=== Escenario de ejecución 9: Actualizar Sedes
+image::runtime/act-sedes.png[alt="Actualizar Sedes", title="Actualizar Sedes", width=800]
+* _Un `POST` lista sedes y un `PUT` actualiza la sede con `location_id` y `status`, con respuestas de éxito y error._
+
+=== Escenario de ejecución 10: Actualizar Membresías
+image::runtime/act-memb.png[alt="Actualizar Membresías", title="Actualizar Membresías", width=800]
+* _Un `GET` lista membresías, y un `PUT` actualiza membresías enviando `id`, `description`, `price`, y `action`, con respuestas de éxito y error._
+
+=== Escenario de ejecución 11: Visualizar Plan de Nutrición como Cliente
+image::runtime/visual-plan-nut.png[alt="Visualizar Plan de Nutrición como Cliente", title="Visualizar Plan de Nutrición como Cliente", width=800]
+* _Un `GET` obtiene datos del plan de nutrición del cliente, con respuestas de éxito y error._
+
+=== Escenario de ejecución 12: Visualizar Plan de Entrenamiento
+image::runtime/visual-plan-entre.png[alt="Visualizar Plan de Entrenamiento", title="Visualizar Plan de Entrenamiento", width=800]
+* _Un `GET` obtiene el plan de entrenamiento del cliente por `clienteId`, con respuestas de éxito y error._
+* _Otro `GET` muestra días de entrenamiento por `planId` y ejercicios específicos por `diaId`, con éxito y error._
+
+=== Escenario de ejecución 13: Registrar Métricas
+image::runtime/reg-metric.png[alt="Registrar Métricas", title="Registrar Métricas", width=800]
+* _Un `POST` registra métricas del alumno enviando datos específicos, con respuestas de éxito y error._
+
+=== Escenario de ejecución 14: Visualizar Métricas
+image::runtime/visual-metric-alu.png[alt="Visualizar Métricas", title="Visualizar Métricas", width=800]
+* _Un `GET` visualiza métricas del alumno por `body_id`, con éxito y error._
+
+=== Escenario de ejecución 15: Asignar Cliente a Alumno
+image::runtime/asig-cli-alu.png[alt="Asignar Cliente a Alumno", title="Asignar Cliente a Alumno", width=800]
+* _Un `GET` busca alumno por `documento` y un `PATCH` asigna cliente a alumno con `cliente_id` y `staff_id`, con éxito y error._
+
+=== Escenario de ejecución 16: Visualizar Listar Alumno
+image::runtime/visual-lista-alu.png[alt="Visualizar Listar Alumno", title="Visualizar Listar Alumno", width=800]
+* _Un `GET` lista alumnos por `staff_id` y visualiza detalles del cliente por `cliente_id`, con éxito y error._
+
+=== Escenario de ejecución 17: Generar Plan de Entrenamiento
+image::runtime/gener-plan-entre.png[alt="Generar Plan de Entrenamiento", title="Generar Plan de Entrenamiento", width=800]
+* _Un `POST` crea el plan de entrenamiento enviando `cliente_id` y `day`, con éxito y error._
+
+=== Escenario de ejecución 18: Generar Plan de Entrenamiento por Día
+image::runtime/gener-plan-xdia.png[alt="Generar Plan de Entrenamiento por Día", title="Generar Plan de Entrenamiento por Día", width=800]
+* _Un `POST` genera un plan por día enviando ejercicios, cliente y plan de entrenamiento, con éxito y error._
+
+=== Escenario de ejecución 19: Mantener Productos
+image::runtime/mante-prod.png[alt="Mantener Productos", title="Mantener Productos", width=800]
+* _Un `GET` lista productos, un `POST` registra productos, y un `PATCH` habilita/deshabilita productos, con éxito y error._
+
+=== Escenario de ejecución 20: Mantener Ejercicios
+image::runtime/mante-ejer.png[alt="Mantener Ejercicios", title="Mantener Ejercicios", width=800]
+* _Un `GET` lista ejercicios y permite filtrar por estado con `active` y `filter`, con éxito y error._
+* _Un `POST` registra ejercicios enviando `name`, `description`, `exercise_type`, y `files`, con éxito y error._
+
+=== Escenario de ejecución 21: Mantener Ejercicios para Tratamiento
+image::runtime/mante-ejer-trat.png[alt="Mantener Ejercicios para Tratamiento", title="Mantener Ejercicios para Tratamiento", width=800]
+* _Un `GET` lista ejercicios y un `POST` registra tipos de ejercicio enviando `name` y `description`, con éxito y error._
+
+=== Escenario de ejecución 22: Visualizar Plan de Tratamiento
+image::runtime/visual-plan-trat.png[alt="Visualizar Plan de Tratamiento", title="Visualizar Plan de Tratamiento", width=800]
+* _Un `GET` obtiene el plan de tratamiento por `cliente_id`, con éxito y error._
+
+=== Escenario de ejecución 23: Actualizar suscripción como alumno
+image::runtime/act-susc-alu1.png[alt="Actualizar suscripción como alumno 1", title="Actualizar suscripción como alumno 1", width=800]
+image::runtime/act-susc-alu2.png[alt="Actualizar suscripción como alumno 2", title="Actualizar suscripción como alumno 2", width=800]
+* _Un `POST` actualiza la membresía enviando datos de pago, empleados, `email`, y `membresia_id`, con éxito y error._
+* _Un `GET` lista membresías activas y pasadas del cliente por `cliente_id`, con éxito y error._
+
+=== Escenario de ejecución 24: Realizar check-in como empleado
+image::runtime/reali-check-in-emp.png[alt="Realizar check-in como empleado", title="Realizar check-in como empleado", width=800]
+* _Un `POST` realiza el check-in como empleado enviando `employee_id`, `latitude`, y `longitude`, con éxito y error._
+* _Un `GET` obtiene coordenadas de la sede por `employee_id`, con éxito y error._
+
+=== Escenario de ejecución 25: Gestionar evento como encargado de evento
+image::runtime/gestio-even-encar.png[alt="Gestionar evento como encargado de evento", title="Gestionar evento como encargado de evento", width=800]
+* _Un `GET` lista eventos y un `PUT` actualiza el estado del evento enviando `evento_id` y `approved`, con éxito y error._
+
+=== Escenario de ejecución 26: Visualizar Lista de Cliente
+image::runtime/visual-lista-cli.png[alt="Visualizar Lista de Cliente", title="Visualizar Lista de Cliente", width=800]
+* _Un `GET` visualiza lista de clientes y permite filtrar por `document`, con éxito y error._
+
+=== Escenario de ejecución 27: Visualizar Empleados
+image::runtime/visual-emple.png[alt="Visualizar Empleados", title="Visualizar Empleados", width=800]
+* _Un `GET` lista empleados y permite filtrar por `document`, `gender`, `roles`, y `locations`, con éxito y error._
+
+=== Escenario de ejecución 28: Registrar empleados
+image::runtime/reg-empleado.png[alt="Registrar empleados", title="Registrar empleados", width=800]
+* _Un `POST` registra nuevo empleado enviando datos, `location`, `rol`, `user_id`, con éxito y error._
+* _Un `GET` permite buscar empleados por `document`, `gender`, `roles`, y `locations`, con éxito y error._
+
+=== Escenario de ejecución 29: Generar Plan de Nutrición
+image::runtime/gener-plan-nut.png[][alt="Generar Plan de Nutrición", title="Generar Plan de Nutrición", width=800]
+* _Un `GET` obtiene el plan de nutrición según el tipo de cliente, con éxito y error._

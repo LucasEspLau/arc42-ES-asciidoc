@@ -34,13 +34,7 @@ Cualquier cambio en un microfrontend puede afectar al principal, lo que complica
 Durante el desarrollo, se ha acumulado deuda técnica debido a decisiones para acelerar la implementación.
 
 *Falta de pruebas automatizadas completas*:
-Áreas críticas como la gestión de transacciones y pagos no tienen pruebas automatizadas completas. **Pendiente**: Ampliar las pruebas en Jest, Selenium y SonarCloud.
+En la parte TEST del ciclo CI/CD, no se llego a implementar de forma automatica el testing con Selenium, como actual solución se opto por usar on premise . **Pendiente**: Ampliar las pruebas en Selenium.
 
 *Optimización de consultas SQL*:
 Algunas consultas en RDS PostgreSQL no están completamente optimizadas, lo que podría generar tiempos de respuesta lentos con grandes volúmenes de datos. **Pendiente**: Optimización de consultas.
-
-*Gestión de estados en microfrontends*:
-La gestión del estado entre microfrontends depende de convenciones que no están completamente documentadas. **Pendiente**: Documentación completa y revisión de la gestión de estados.
-
-*Complejidad de integración*:
-El proceso de integración entre múltiples microfrontends y servicios desacoplados es complejo, lo que aumenta el tiempo de respuesta ante problemas. **Pendiente**: Optimización de los procesos de despliegue y sincronización.

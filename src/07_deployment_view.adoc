@@ -2,10 +2,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-deployment-view]]
 
-= Plataforma de Gestión Unificada para Gimnasios: Optimización y Control
-Franco Jesús Sánchez Villalobos (Product Owner)
-FIAFIT-2024-02
-
 == Vista de Despliegue
 
 === Nivel de infraestructura 1
@@ -83,7 +79,7 @@ El sistema de autenticación se basa en JWT (JSON Web Tokens) para gestionar las
 
 ==== QA y Herramientas de Testing
 
-image::images/qa-img.png.png[alt="Diagrama de QA", title="Diagrama de QA", width=800]
+image::qa-img.png[alt="Diagrama de QA", title="Diagrama de QA", width=800]
 
 El entorno de QA integra:
 - **Selenium (on premises)**: Para pruebas automáticas en el frontend, simula interacciones de usuario y asegura la funcionalidad en navegadores.

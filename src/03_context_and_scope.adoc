@@ -9,29 +9,8 @@ En este apartado se describe el entorno de negocio en el cual opera la plataform
 
 image::contexto.svg[alt="Diagrama de Contexto de Negocio", title="Diagrama de Contexto de Negocio", width=800]
 
-**<Diagrama o Tabla>**
-
-*Nota: Incluir un diagrama que muestre cómo se interconectan los distintos actores y servicios en el contexto del negocio, así como los flujos de información y los principales procesos de negocio involucrados.*
-
-**<optionally: Explanation of external domain interfaces>**
-
-*Nota: Describir brevemente cómo la plataforma interactúa con los servicios externos mencionados, y qué información se intercambia entre ellos para garantizar el correcto funcionamiento del sistema.*
-
 === Contexto Técnico
 
 En esta sección se describe el entorno técnico en el cual se implementará la plataforma. Se detallan los componentes técnicos, como AWS Lambda, RDS para PostgreSQL, DynamoDB, y el uso de herramientas de gestión y CI/CD como Azure DevOps y CodePipeline. También se debe considerar la arquitectura serverless y cómo afecta la implementación y el monitoreo de la aplicación.
 
 image::arquitectura.svg[alt="Diagrama de Contexto Técnico", title="Diagrama de Contexto Técnico", width=800]
-
-
-**<Diagrama o Tabla>**
-
-*Nota: Incluir un diagrama técnico que represente la arquitectura de la solución, mostrando la interacción entre los diferentes componentes, como las funciones Lambda, las bases de datos y los servicios externos.*
-
-**<Opcional: Explicación de las interfases técnicas>**
-
-*Nota: Proporcionar detalles sobre las interfases técnicas, incluyendo cómo se comunican las funciones Lambda con las bases de datos y otros servicios, y cualquier protocolo o tecnología utilizada para la comunicación.*
-
-**<Mapeo de Entrada/Salida a canales>**
-
-*Nota: Detallar cómo se manejan las entradas y salidas del sistema, incluyendo los canales de comunicación, como APIs, eventos y otros mecanismos que se utilizan para interactuar con el sistema y los usuarios.*
